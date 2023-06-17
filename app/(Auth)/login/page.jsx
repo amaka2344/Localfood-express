@@ -25,10 +25,10 @@ function Login() {
 
     //validate
     if (!formData.email) {
-      return('Email is not valid');
+      alert('Email is not valid');
     }
-    if (formData.password <= 5) {
-      return('Password should have more than five character.')
+    if (!formData.password <= 5) {
+      alert('Password should have more than five character.')
     }
   }
 

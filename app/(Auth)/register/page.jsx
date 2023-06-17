@@ -24,8 +24,6 @@ function Register() {
       ...userDetails
     }
 
-    console.log("formData");
-
     //validate
     if (!formData.userName) {
       alert("Please enter a username")
@@ -33,8 +31,7 @@ function Register() {
     if (formData.userName < 4) {
       alert('Username must be at least four characters long')
     }
-    if (!formData.email || !/\S+@\S+\.\S+/.test(
-      formData.email)) {
+    if (!formData.email) {
       alert('Email is not valid');
     }
     if (formData.password <= 5) {
@@ -51,7 +48,7 @@ function Register() {
         <Image src={icon} alt='icon' width={100} height={100} />
       </div>
       <div>
-        <h1 className=' font-bold text-3xl'>
+        <h1 className='font-bold text-3xl'>
           Welcome to Local Food-Express
         </h1>
         <p className='pb-9'>
