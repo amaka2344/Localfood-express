@@ -1,19 +1,14 @@
 import { BsGeo } from 'react-icons/bs'
 import Link from 'next/link'
 import soup from '../public/soup-removebg-preview.png'
-import soup2 from '../public/soup.png'
 import Image from 'next/image'
 import logo11 from '../public/logo11.png'
 import logo12 from '../public/logo12.png'
 import logo13 from '../public/logo13.png'
-import { FiThumbsUp } from 'react-icons/fi'
-
-
-
 
 export default function Home() {
   return (
-    <div>
+    <div >
       <div className="flex justify-between items-center py-1  px-[4%] md:px-[6%]" >
         <section className="max-w-xl mx-auto sm:mx-0 w-full lg:w-1/3 sm:mt-[20%] pb-[15%]">
           <h1 className=" text-6xl sm:text-7xl lg:text-6xl font-semibold  w-full">
@@ -138,4 +133,3 @@ export default function Home() {
     </div>
   )
 }
- 
