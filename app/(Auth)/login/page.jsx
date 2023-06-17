@@ -1,15 +1,18 @@
-'use client'
-import { React, useState } from 'react'
-import icon from '../../../public/icon.png'
-import Image from 'next/image'
-import Link from 'next/link'
+"use client";
+import { React, useState } from "react";
+import icon from "../../../public/icon.png";
+import Image from "next/image";
+import Link from "next/link";
+//import services
+import { login } from "../../../services/user";
 
 function Login() {
   // input usestate
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
-  })
+  });
+  const [loading, setLoading] = useState(false);
 
   const onChangeInHandler = (e) => {
     setUserDetails({
@@ -18,7 +21,8 @@ function Login() {
 
     })
   }
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = {
       ...userDetails
     }
@@ -26,9 +30,27 @@ function Login() {
     //validate
     if (!formData.email) {
       alert('Email is not valid');
+      return;
     }
-    if (!formData.password <= 5) {
+    if (!formData.password.length <= 5) {
       alert('Password should have more than five character.')
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await login(userDetails);
+      setLoading(false);
+      if (response.hasOwnProperty("success") && response.success) {
+        //use toast library here
+        alert("Login successful");
+        alert(JSON.stringify(response.userData));
+        // save response.user into local storage (easier) or a redux persited state
+        // navigate user to dashboard page
+      }
+    } catch (error) {
+      //use toast library here
+      alert(error);
     }
   }
 
@@ -46,7 +68,7 @@ return (
         Fill in the details to log in or create a Local Food-Express Account
       </p>
     </div>
-    <form action='' className='block'>
+    <form action='' className='block' onSubmit={handleSubmit}>
       <input type='email'
         required
         placeholder='email'
@@ -66,7 +88,6 @@ return (
       <div className="w-full py-10 flex flex-col gap-4 items-center">
         <button
           type="submit"
-          onClick={()=> handleSubmit()}
           className=" bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
         >
           Log In
@@ -87,4 +108,4 @@ return (
 )
 }
 
-export default Login
+export default Login;
