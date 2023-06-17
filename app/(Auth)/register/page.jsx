@@ -12,12 +12,39 @@ function Register() {
     password: "",
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onChangeInHandler = (e) => {
+    setUserDetails({
+      ...userDetails,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = () => {
+    const formData = {
+      ...userDetails
+    }
+
+    console.log("formData");
+
+    //validate
+    if (!formData.userName) {
+      alert("Please enter a username")
+    }
+    if (formData.userName < 4) {
+      alert('Username must be at least four characters long')
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(
+      formData.email)) {
+      alert('Email is not valid');
+    }
+    if (formData.password <= 5) {
+      alert('Password should have more than five character.')
+    }
+
+    
   }
 
   // If validation passes, proceed with form submission
-  console.log('Form submitted!');
   return (
     <div className='text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%]'>
       <div className='items-center justify-center flex pb-10'>
@@ -31,41 +58,43 @@ function Register() {
           Fill in the details to log in or create a Local Food-Express Account
         </p>
       </div>
-      <form action='' className='block' onSubmit={handleSubmit}>
+      <form action='' className='block'>
         <input type='text'
           required
           placeholder='Username'
-          name={userDetails.userName}
+          name='userName'
+          value={userDetails.userName}
           className='border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black'
-          onChange={(e) => setUserDetails(e.target.name)} /> <br />
+          onChange={onChangeInHandler} /> <br />
         <br />
         <input type='email'
           required
           placeholder='email'
-          name={userDetails.email}
+          value={userDetails.email}
+          name='email'
           className='border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black'
-          onChange={(e) => setUserDetails(e.target.name)} /> <br />
+          onChange={onChangeInHandler} /> <br />
         <br />
         <input type='password'
           required
           placeholder='password'
-          name={userDetails.email}
+          value={userDetails.password}
+          name='password'
           className='border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black '
-          onChange={(e) => setUserDetails(e.target.name)} />
+          onChange={onChangeInHandler} />
 
         <div className="w-full py-10 flex flex-col gap-4 items-center">
           <button
             type="submit"
-            className=" bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
-          >
+            onClick={() => handleSubmit()}
+            className=" bg-[#A1C75C] w-1/3 h-12 text-lg text-center">
             Register
           </button>
           <p className="text-gray-600 text-sm">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="underline text-base
-            "
+              className="underline text-base"
             >
               Login
             </Link>
