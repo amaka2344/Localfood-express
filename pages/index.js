@@ -15,7 +15,7 @@ export default function Home() {
     
       <div className="flex justify-between items-center py-1  px-[4%] md:px-[6%]" >
         <section className="max-w-xl mx-auto sm:mx-0 w-full lg:w-1/3 sm:mt-[20%] pb-[15%]">
-          <h1 className=" text-6xl sm:text-7xl lg:text-6xl font-semibold  w-full">
+          <h1 className=" text-6xl sm:text-7xl lg:text-6xl font-semibold text-black w-full">
             Savor the Best Local Cuisine <span className="font-bold text-[#A1C75C]">at Your Doorstep</span>
           </h1>
           <p className="py-3 text-md  text-gray-600">
@@ -45,21 +45,21 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center">
               <Image src={logo11} alt="Logo" className="mb-4" width={100} height={100} />
               <div className="text-center">
-                <h3 className="text-lg sm:text-2xl font-medium mb-2">Browse, Choose, and Order</h3>
+                <h3 className="text-lg sm:text-2xl text-gray-500 font-medium mb-2">Browse, Choose, and Order</h3>
                 <p className="text-gray-600 text-sm sm:text-base">Explore our curated selection of local restaurants and their enticing menus.</p>
               </div>
             </div>
             <div className="flex flex-col items-center">
               <Image src={logo12} alt="Logo" className="mb-4" width={100} height={100} />
               <div className="text-center">
-                <h3 className="text-lg sm:text-2xl font-medium mb-2">Secure and Seamless Transactions</h3>
+                <h3 className="text-lg sm:text-2xl text-gray-500 font-medium mb-2">Secure and Seamless Transactions</h3>
                 <p className="text-gray-600 text-sm sm:text-base">Make payments hassle-free using your preferred method, whether it's credit card, digital wallet, or cash on delivery.</p>
               </div>
             </div>
             <div className="flex flex-col items-center">
               <Image src={logo13} alt="Logo" className="mb-4" width={100} height={100} />
               <div className="text-center">
-                <h3 className="text-lg sm:text-2xl font-medium mb-2">Swift Delivery to Your Doorstep</h3>
+                <h3 className="text-lg sm:text-2xl text-gray-500 font-medium mb-2">Swift Delivery to Your Doorstep</h3>
                 <p className="text-gray-600 text-sm sm:text-base">Once your order is placed, sit back and relax. Our trusted delivery partners will swiftly pick up your food from the restaurant and ensure it reaches your doorstep with care.</p>
               </div>
             </div>

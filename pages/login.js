@@ -1,4 +1,4 @@
-"use client";
+
 import { React, useState } from "react";
 import icon from "../public/icon.png";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 //import services
 import { login } from "../services/user";
 
-function Login() {
+const Login = () => {
   const router = useRouter()
   // input usestate
   const [userDetails, setUserDetails] = useState({
@@ -79,10 +79,10 @@ function Login() {
         <Image src={icon} alt='icon' width={100} height={70} />
       </div>
       <div>
-        <h1 className=' font-bold text-3xl'>
+        <h1 className=' font-bold text-3xl text-black'>
           Welcome to Local Food-Express
         </h1>
-        <p className='pb-9'>
+        <p className='pb-9 text-gray-400'>
           Fill in the details to log in or create a Local Food-Express Account
         </p>
       </div>
@@ -99,11 +99,11 @@ function Login() {
           placeholder='password'
           value={userDetails.password}
           name='password'
-          className='border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black '
+          className='border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black text-black '
           onChange={onChangeInHandler} />
 
         <div className="w-full py-10 flex flex-col gap-4 items-center">
-          {isLoading ? <ClipLoader color="amber" size={20} /> : <button
+          {isLoading ? <ClipLoader color="black" size={20} /> : <button
             type="submit"
             className=" bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
           >

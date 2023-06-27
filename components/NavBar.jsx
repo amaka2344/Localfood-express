@@ -11,10 +11,10 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colorChange, setColorChange] = useState(false);
   return (
-    <header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
+    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
       <nav className={`flex flex-col sm:flex-row py-3 max-w-screen mb-3 fixed bg-white left-0 right-0 px-[4%] md:px-[10%] ${colorChange ? "shadow-sm  drop-shadow-sm" : ""
         } z-10 transition delay-75 ease-in-out`}>
-        <div class="flex justify-between w-full items-center">
+        <div className="flex justify-between w-full items-center">
           <section className="relative flex items-center">
             <Link href='/' className=' cursor-pointer'>
               <a>
