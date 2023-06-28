@@ -1,19 +1,27 @@
-"use client";
 import { React, useState } from "react";
-import icon from "../../../public/icon.png";
+import icon from "../public/icon.png";
 import Image from "next/image";
 import Link from "next/link";
+//import userouter
+import { useRouter } from 'next/router';
+//import toast
+import toast, { Toaster } from 'react-hot-toast';
 //import services
-import { register } from "../../../services/user";
+import { register } from "../services/user";
+//import loader
+import ClipLoader from "react-spinners/ClipLoader";
 
-function Register() {
+const Register = () => {
+  //input use router
+  const router = useRouter()
+
   // input usestate
   const [userDetails, setUserDetails] = useState({
     userName: "",
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeInHandler = (e) => {
     setUserDetails({
@@ -30,26 +38,24 @@ function Register() {
 
     //validate
     if (!formData.userName) {
-      alert("Please enter a username");
-      return;
+      return toast.error('please enter a username')
+
     }
     if (formData.userName.length < 4) {
-      alert("Username must be at least four characters long");
-      return;
+      return toast.error('Username must be at least four characters long')
     }
     if (!formData.email) {
-      alert("Email is not valid");
-      return;
+      return toast.error('Email is not valid')
     }
     if (formData.password.length <= 5) {
-      alert("Password should have more than five character.");
-      return;
+      return toast.error('Password should have more than five character.')
     }
 
+    setIsLoading(true);
+
     try {
-      setLoading(true);
       const response = await register(formData);
-      setLoading(false);
+      setIsLoading(false);
       if (response.hasOwnProperty("success") && response.success) {
         setUserDetails({
           userName: "",
@@ -57,12 +63,13 @@ function Register() {
           password: "",
         });
         //use toast library here
-        alert("Registeration successful");
+        toast.success('Registration Successful')
         // navigate user to login page
+        router.push('/login')
       }
     } catch (error) {
       //use toast library here
-      alert(error);
+      toast.error('error')
     }
   };
 
@@ -70,11 +77,11 @@ function Register() {
   return (
     <div className="text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%]">
       <div className="items-center justify-center flex pb-10">
-        <Image src={icon} alt="icon" width={100} height={100} />
+        <Image src={icon} alt="icon" width={100} height={70} />
       </div>
       <div>
-        <h1 className="font-bold text-3xl">Welcome to Local Food-Express</h1>
-        <p className="pb-9">
+        <h1 className="font-bold text-black text-3xl">Welcome to Local Food-Express</h1>
+        <p className="pb-9 text-gray-400">
           Fill in the details to log in or create a Local Food-Express Account
         </p>
       </div>
@@ -102,7 +109,7 @@ function Register() {
         <br />
         <br />
         <input
-          type="email"
+          type="password"
           required
           placeholder="password"
           value={userDetails.password}
@@ -111,20 +118,32 @@ function Register() {
           onChange={onChangeInHandler}
         />
         <div className="w-full py-10 flex flex-col gap-4 items-center">
-          <button
-            type="submit"
-            className="bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
-          >
-            Register
-          </button>
+          {isLoading ? <ClipLoader color="black" size={20} /> :
+            <button
+              type="submit"
+              className="bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
+            >
+              Register
+            </button>
+          }
+
           <p className="text-gray-600 text-sm">
             Already have an account?{" "}
-            <Link href="/login" className="underline text-base">
-              Login
+            <Link href="/login" className=" underline  text-base">
+              <a>
+                Login
+              </a>
             </Link>
           </p>
         </div>
       </form>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={true}
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
     </div>
   );
 }
