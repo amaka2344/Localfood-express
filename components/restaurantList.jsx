@@ -36,7 +36,7 @@ const RestaurantList = () => {
             </Link>
             <div className="px-6 py-4">
                 <Link href={`/AllRestaurants/${restaurant.id}`}>
-                <h2 className="font-bold text-xl mb-2 cursor-pointer hover:text-[#A1C75C]">{restaurant.name}</h2>
+                <h2 className="font-bold text-xl mb-2 cursor-pointer text-black hover:text-[#A1C75C]">{restaurant.name}</h2>
                 </Link>
                 <div className="flex items-center mb-2">
                     <div className="text-yellow-500 mr-2">

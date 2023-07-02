@@ -6,7 +6,7 @@ const cart = () => {
         <div className="p-6 md:p-10 lg:p-16">
         <div className="flex flex-col md:flex-row lg:pt-[6%] md:pt-[10%] sm:pt-[12%]">
           <div className="md:w-2/3 ">
-            <table className="w-full border-collapse text-left">
+            <table className="w-full border-collapse text-left  text-black">
               <thead>
                 <tr>
                   <th>Product</th>
@@ -44,7 +44,7 @@ const cart = () => {
                     </div>
                   </td>
                   <td>
-                    <span className="font-normal text-xl">Roasted Yam and Plantain</span>
+                    <span className="font-normal text-xl  text-black">Roasted Yam and Plantain</span>
                   </td>
                   <td>
                     <span>$1,23</span>
@@ -56,50 +56,12 @@ const cart = () => {
                     <span className="font-medium text-2xl">$500</span>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>
-                    <div className="relative">
-                      <Image src="/spagetti.jpg" alt="Food" width={50} height={50} />
-                    </div>
-                  </td>
-                  <td>
-                    <span className="font-normal text-xl">Roasted Yam and Plantain</span>
-                  </td>
-                  <td>
-                    <span>$1,23</span>
-                  </td>
-                  <td>
-                    <span>1</span>
-                  </td>
-                  <td>
-                    <span className="font-medium text-2xl">$500</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="relative">
-                      <Image src="/spagetti.jpg" alt="Food" width={50} height={50} />
-                    </div>
-                  </td>
-                  <td>
-                    <span className="font-normal text-xl">Roasted Yam and Plantain</span>
-                  </td>
-                  <td>
-                    <span>$1,23</span>
-                  </td>
-                  <td>
-                    <span>1</span>
-                  </td>
-                  <td>
-                    <span className="font-medium text-2xl">$500</span>
-                  </td>
-                </tr>
+             
               </tbody>
 
             </table>
           </div>
-          <div className="md:w-1/3 mt-6 md:mt-0">
+          <div className="md:w-1/3 mt-6 md:mt-0  text-black">
             <div className="w-full max-w-md bg-amber-100 p-8 flex flex-col justify-between">
               <h2 className="text-2xl font-bold mb-4">CART TOTAL</h2>
               <div className="mb-2">
