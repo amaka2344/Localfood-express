@@ -6,8 +6,6 @@ import logo11 from '../public/logo11.png'
 import logo12 from '../public/logo12.png'
 import logo13 from '../public/logo13.png'
 import RestaurantCard from '../components/restuarantCard'
-import Head from 'next/head'
-
 
 export default function Home() {
   return (

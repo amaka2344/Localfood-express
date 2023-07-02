@@ -11,10 +11,10 @@ const Order = () => {
         if (index - status > 1) return styles.undone
     }
     return (
-        <div className='p-[50px] flex lg:pt-[6%] md:pt-[10%] sm:pt-[12%]'>
+        <div className='p-[50px] flex lg:pt-[6%] md:pt-[10%] sm:pt-[12%] px-[6%]'>
             <div className='flex-[2]'>
                 <div>
-                    <table className="w-full border-collapse text-left">
+                    <table className="w-full border-collapse text-left  text-black">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -42,7 +42,7 @@ const Order = () => {
                     </table>
                 </div>
 
-                <div className=' last:flex last:justify-between w-[80%]'>
+                <div className=' last:flex last:justify-between w-[80%] pt-[10%]  text-black'>
                     <div className={statusClass(0)}>
                         <Image src='/Paid.png' width={30} height={30} />
                         <span>
@@ -82,7 +82,7 @@ const Order = () => {
                 </div>
             </div>
 
-            <div className=' flex-[1]'>
+            <div className=' flex-[1]  text-black'>
                 <div className="w-full max-w-md bg-amber-100 p-8 flex flex-col justify-between mt-10">
                     <h2 className="text-2xl font-bold mb-4">CART TOTAL</h2>
                     <div className="mb-2">
