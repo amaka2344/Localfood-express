@@ -1,9 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
+import Footer from '../components/Footer'
+import MainPageNav from '../components/mainPageNavbar/mainPageNav'
 
 const cart = () => {
-    return (
-        <div className="p-6 md:p-10 lg:p-16">
+  return (
+    <div>
+      <MainPageNav/>
+      <div className="p-6 md:p-10 lg:p-16">
         <div className="flex flex-col md:flex-row lg:pt-[6%] md:pt-[10%] sm:pt-[12%]">
           <div className="md:w-2/3 ">
             <table className="w-full border-collapse text-left  text-black">
@@ -56,7 +60,7 @@ const cart = () => {
                     <span className="font-medium text-2xl">$500</span>
                   </td>
                 </tr>
-             
+
               </tbody>
 
             </table>
@@ -80,8 +84,9 @@ const cart = () => {
           </div>
         </div>
       </div>
-      
-    )
+      <Footer />
+    </div>
+  )
 }
 
 export default cart

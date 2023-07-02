@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react'
-import Logo from '../navbar/logo'
+import Logo from '../logo'
 import Image from 'next/image'
 import logoPic from '../../public/icon.png'
 import Link from 'next/link'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
-import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx'
+import { RxHamburgerMenu } from 'react-icons/rx'
 import {BsPerson} from 'react-icons/bs'
-import MenuDropdown from '../navbar/MenuDropdown'
+import MainMenuDropdown from '../mainPageNavbar/mainManuDropdown'
 
 
 const NavBar = () => {
@@ -26,42 +26,43 @@ const NavBar = () => {
           <Logo />
         </section>
 
-        <section className="flex items-center">
-          <Link href='/register'
-            className='mx-4 px-4 py-1 shadow-sm rounded-md text-black text-sm transition bg-[#A1C75C] hover:text-white'
-          >
-            <span className='xs:block'>REGISTER</span>
-          </Link>
-          <Link href='/login'
-            className='mx-4 px-4 py-1 shadow-sm rounded-md text-black text-sm transition outline outline-1 outline-[#A1C75C] hover:bg-[#A1C75C] hover:text-white'
-          >
-            <span className='xs:block'>LOG IN</span>
+        <section className="flex items-center text-black">
+          <Link href='/admin/'>
+                <a>
+                  <button className="hidden md:flex bg-[#A1C75C] text-white py-2 px-4 rounded-md cursor-pointer font-medium h-[30px] mr-8">
+                    Register as a Restaurant
+                  </button>
+                </a>
+              </Link>
+          <Link href='/'>
+            <a>
+          <ul className='hidden md:flex justify-between text-2xl'>
+                  <li className='relative p-2 rounded cursor-pointer mx-2 transition '>
+                    <span className=" inline-block">
+                      <AiOutlineShoppingCart className="w-6 h-6 text-gray-500" />
+                      <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-[#A1C75C] rounded-full">
+                        2
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+                </a>
           </Link>
           <Link href='/'>
+            <a>
             <ul className='hidden md:flex justify-between text-2xl'>
-              <li className='relative p-2 rounded-full hover:bg-[#FBDEB7] hover:text-black cursor-pointer mx-2 transition shadow-sm'>
-                <AiOutlineShoppingCart />
-              </li>
-              <div className='absolute bottom-[5px] right-[10%] w-5 h-5 border- rounded-full bg-amber-100 p-3 flex justify-center items-center'>
-              2
-            </div>
-            </ul>
-           
-          </Link>
-          <Link href='/'>
-            <ul className='hidden md:flex justify-between text-2xl'>
-              <li className='relative p-2 rounded-full hover:bg-[#FBDEB7] hover:text-black cursor-pointer mx-2 transition shadow-sm'>
-                <BsPerson />
+              <li className='relative p-2 pt-0 rounded-full hover:bg-[#cae39b] cursor-pointer mx-2 transition'>
+                <BsPerson color='gray' />
               </li>
             </ul>
-           
+           </a>
           </Link>
           <section className="md:hidden cursor-pointer relative">
             <RxHamburgerMenu
               className="text-lg"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             />
-            {isMenuOpen && <MenuDropdown />}
+            {isMenuOpen && <MainMenuDropdown />}
           </section>
         </section>
       </div>
