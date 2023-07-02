@@ -6,11 +6,14 @@ import logo11 from '../public/logo11.png'
 import logo12 from '../public/logo12.png'
 import logo13 from '../public/logo13.png'
 import RestaurantCard from '../components/restuarantCard'
+import NavBar from '../components/NavBar'
+import Footer from '../components/Footer'
 
 export default function Home() {
   return (
+
     <div >
-    
+      <NavBar />
       <div className="flex justify-between items-center py-1  px-[4%] md:px-[6%]" >
         <section className="max-w-xl mx-auto sm:mx-0 w-full lg:w-1/3 sm:mt-[20%] pb-[15%]">
           <h1 className=" text-6xl sm:text-7xl lg:text-6xl font-semibold text-black w-full">
@@ -22,21 +25,20 @@ export default function Home() {
             Wherever and Whenever from <span className="font-bold text-[#A1C75C]">LOCAL FOOD-EXPRESS</span>
           </p>
           <div className="flex items-center">
-                <div className="bg-amber-100 rounded-full p-2">
-                  <BsGeo className="text-[25px] text-[#A1C75C]" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Enter your Delivery Address"
-                  className="ml-2 w-full px-4 py-2 border border-gray-100 rounded-md focus:outline-none focus:ring focus:ring-amber-100"
-                />
-              </div>
+            <div className="bg-amber-100 rounded-full p-2">
+              <BsGeo className="text-[25px] text-[#A1C75C]" />
+            </div>
+            <input
+              type="text"
+              placeholder="Enter your Delivery Address"
+              className="text-black ml-2 w-full px-4 py-2 border border-gray-100 rounded-md focus:outline-none focus:ring focus:ring-amber-100"
+            />
+          </div>
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
           <Image src={soup} alt="heroImg" className="w-2/3 h-full" />
         </div>
       </div>
-
       <div className="bg-amber-50 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start justify-center">
@@ -64,10 +66,12 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <h1 className=' text-3xl pt-5'>
-                Restaurants you might like
-            </h1>
+      <h1 className='text-black text-3xl pt-5'>
+        Restaurants you might like
+      </h1>
       <RestaurantCard />
+      <Footer />
     </div>
+
   )
 }

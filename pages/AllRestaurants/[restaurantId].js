@@ -5,9 +5,13 @@ import {
 import { BiPlus } from 'react-icons/bi'
 import Image from 'next/image'
 import spagetti from '../../public/spagetti.jpg'
+import MainPageNav from '../../components/mainPageNavbar/mainPageNav'
+import Footer from '../../components/Footer'
 
 const RestaurantId = () => {
     return (
+        <>
+        <MainPageNav/>
         <div className="pt-[6%]">
             <Image
                 className="w-full"
@@ -17,15 +21,15 @@ const RestaurantId = () => {
             />
             <figure className="relative">
                 <figcaption className="absolute bottom-8 left-2/4 transform -translate-x-2/4 sm:flex sm:justify-between bg-white py-4 px-6 sm:w-[calc(100%-4rem)] sm:saturate-200 sm:backdrop-blur-sm">
-                    <div className="flex flex-col">
-                        <Typography variant="h5" color="blue-gray">
+                    <div className="flex flex-col text-black">
+                        <Typography variant="h5" color="black">
                             restaurant 1
                         </Typography>
-                        <Typography color="gray" className="mt-2 font-normal">
+                        <Typography color="black" className="mt-2 font-normal">
                             address
                         </Typography>
                     </div>
-                    <Typography variant="h5" color="blue-gray" className="mt-2 sm:mt-0">
+                    <Typography variant="h5" color="black" className="mt-2 sm:mt-0">
                         10-20 min
                     </Typography>
                 </figcaption>
@@ -72,6 +76,8 @@ const RestaurantId = () => {
                 </div>
             </section>
         </div>
+        <Footer />
+        </>
     )
 }
 

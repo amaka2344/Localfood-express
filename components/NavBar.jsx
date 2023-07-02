@@ -36,9 +36,17 @@ const NavBar = () => {
                   Login
                 </a>
               </Link>
+              <Link href='/admin/'>
+                <a>
+                  <button className="bg-[#A1C75C] text-white py-2 px-4 rounded-md cursor-pointer font-medium h-[30px] mr-8">
+                    Register as a Restaurant
+                  </button>
+                </a>
+              </Link>
             </div>
           </div>
-          <section className="flex items-center">
+
+          <section className="flex items-center text-black">
             <Link href='/'>
               <a>
                 <ul className='hidden md:flex justify-between text-2xl'>

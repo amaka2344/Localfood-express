@@ -1,5 +1,4 @@
 import React from 'react';
-import RestaurantCard from '../components/restuarantCard';
 import Link from 'next/link';
 import Image from 'next/image';
 import plantain from '../public/plantain.jpg'
@@ -27,16 +26,20 @@ const RestaurantList = () => {
 
   return (
     <div className="flex w-full pt-10">
-      {restaurants.map((restaurant) => {
-        return <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
+      {restaurants.map((restaurant,index) => {
+        return <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
         <Link href={`/AllRestaurants/${restaurant.id}`} key={restaurant.id}>
         <div className="max-w-sm rounded overflow-hidden shadow cursor-pointer">
             <Link href={`/AllRestaurants/${restaurant.id}`}>
+              <a>
             <Image className="w-full cursor-pointer" src={plantain} alt="Restaurant" />
+            </a>
             </Link>
             <div className="px-6 py-4">
                 <Link href={`/AllRestaurants/${restaurant.id}`}>
+                  <a>
                 <h2 className="font-bold text-xl mb-2 cursor-pointer text-black hover:text-[#A1C75C]">{restaurant.name}</h2>
+                </a>
                 </Link>
                 <div className="flex items-center mb-2">
                     <div className="text-yellow-500 mr-2">
