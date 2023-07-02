@@ -71,4 +71,20 @@ const login = async (userDetails) => {
   }
 };
 
-export { register, login };
+const getUser = async (userId) => {
+  try {
+    const userRef = doc(db, "users", userId);
+    const docSnapshot = await getDoc(userRef);
+
+    if (docSnapshot.exists()) {
+      const userData = { id: docSnapshot.id, ...docSnapshot.data() };
+      return { success: true, message: "", userData };
+    } else {
+      throw new Error("No user found with the specified ID");
+    }
+  } catch (error) {
+    throw new Error("Error getting user: ", error);
+  }
+};
+
+export { register, login, getUser };
