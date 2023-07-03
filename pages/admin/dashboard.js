@@ -7,6 +7,7 @@ import { Chip } from '@material-tailwind/react'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [productList, setProductList] = useState([])
 
   const handleAddProduct = () => {
     setIsModalOpen(true)
@@ -16,8 +17,25 @@ const Dashboard = () => {
     setIsModalOpen(false)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSaveProduct = (e) => {
+    e.preventDefault();
+    // Retrieve the form data
+    const formData = new FormData(e.target);
+    const newProduct = {
+      productName: formData.get('productName'),
+      description: formData.get('description'),
+      price: formData.get('price'),
+      unitId: formData.get('unitId'),
+      stockQuantity: formData.get('stockQuantity'),
+      packagingTime: formData.get('packagingTime'),
+      published: formData.get('published') === 'on',
+      photo: formData.get('photo'),
+    }
+    //update the product list
+    setProductList([...productList, newProduct])
+
+    //close the modal
+    handleCloseModal()
   }
   return (
     <>
@@ -76,28 +94,88 @@ const Dashboard = () => {
             </button>
           </div>
 
-           {/** modal */}
-           {isModalOpen && (
+          {/** modal */}
+          {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-10 text-black">
               <div className="bg-white rounded-lg p-6 w-96 z-50">
                 <h2 className="text-lg font-bold mb-4">Add Product</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSaveProduct}>
+                  <div className="mb-4">
+                    <input
+                      type="file"
+                      name='photo'
+                      value={productList.photo}
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Product Image"
+                    />
+                  </div>
                   {/* Product Name */}
                   <div className="mb-4">
-                    <label htmlFor="productName" className="block mb-2">
-                      Product Name
-                    </label>
                     <input
                       type="text"
-                      id="productName"
-                      className="border-gray-300 border p-2 w-full"
-                    // Add any required validation or state handling
+                      name='productName'
+                      value={productList.productName}
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Product Name"
                     />
                   </div>
 
                   {/* Description */}
-                  {/* Add other form fields here */}
-
+                  <div className="mb-4">
+                    <textarea
+                      value={productList.description}
+                      name='description'
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Product Description"
+                    ></textarea>
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      value={productList.price}
+                      name='price'
+                      type="number"
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Price"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <select className="border border-gray-300 p-2 w-full" value={productList.unitId} name='unitId'>
+                      <option value="">Select Unit</option>
+                      <option value=''>kg</option>
+                      <option value=''>kg</option>
+                      <option value=''>kg</option>
+                      <option value=''>kg</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      value={productList.stockQuantity}
+                      name='stockQuantity'
+                      type="number"
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Stock Quantity"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      name='packagingTime'
+                      value={productList.packagingTime}
+                      type="number"
+                      className="border border-gray-300 p-2 w-full"
+                      placeholder="Packaging Time"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="flex items-center">
+                      <input
+                        name='published'
+                        value={productList.published}
+                        type="checkbox"
+                        className="mr-2"
+                      />
+                      Published
+                    </label>
+                  </div>
                   {/* Save Button */}
                   <div className="flex justify-end">
                     <button
@@ -130,33 +208,46 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b">
-                    <td className="py-2 px-4">
-                      <div className="w-16 h-16">
-                        <Image
-                          width={50}
-                          height={50}
-                          src={spagetti}
-                          objectFit="cover"
-                          alt=""
-                        />
-                      </div>
-                    </td>
-                    <td className="py-2 px-4">cloth...</td>
-                    <td className="py-2 px-4">ffff</td>
-                    <td className="py-2 px-4">$500</td>
-                    <td className="py-2 px-4">
-                      <button className="bg-green-500 text-white px-3 py-1 rounded mr-2">
-                        more
-                      </button>
-                      <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
-                        Edit
-                      </button>
-                      <button className="bg-red-500 text-white px-3 py-1 rounded" disabled>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
+                  {productList.length > 0 ? (
+
+                    productList.map((product, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="py-2 px-4">
+                          <div className="w-16 h-16">
+                            <Image
+                              width={50}
+                              height={50}
+                              src={product.photo}
+                              objectFit="cover"
+                              alt=""
+                            />
+                          </div>
+                        </td>
+                        <td className="py-2 px-4">{index + 1}</td>
+                        <td className="py-2 px-4">{product.productName}</td>
+                        <td className="py-2 px-4">{product.price}</td>
+                        <td className="py-2 px-4">
+                          <button className="bg-green-500 text-white px-3 py-1 rounded mr-2">
+                            more
+                          </button>
+                          <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
+                            Edit
+                          </button>
+                          <button className="bg-red-500 text-white px-3 py-1 rounded" disabled>
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="py-2 px-4 text-center">
+                        No products found.
+                      </td>
+                    </tr>
+                  )}
+
                 </tbody>
               </table>
             </div>
@@ -193,7 +284,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          
+
         </div>
       </div>
     </>

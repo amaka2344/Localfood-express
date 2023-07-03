@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 //import userouter
 import { useRouter } from "next/router";
-import { useNavigate, Link } from "react-router-dom";
 //import toast
 import toast, { Toaster } from "react-hot-toast";
 //import loader
