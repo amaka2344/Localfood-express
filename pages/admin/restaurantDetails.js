@@ -77,7 +77,7 @@ const RestaurantDetails = () => {
         alert("Registration Successful, redirecting to login");
         setTimeout(() => {
           router.push("/login");
-        }, 2000); // Delay of 2 seconds (adjust as needed)
+        }, 1000); // Delay of 2 seconds (adjust as needed)
       }
     } catch (error) {
       toast.error("error");
@@ -93,7 +93,7 @@ const RestaurantDetails = () => {
       </div>
       <form
         action=""
-        className="block max-w-md mx-auto"
+        className="block max-w-md mx-auto text-black"
         onSubmit={handleSubmit}
       >
         <div className="mb-6">
@@ -185,13 +185,13 @@ const RestaurantDetails = () => {
           )}
         </div>
       </form>
-      {/* <Toaster
+      <Toaster
                 position="bottom-center"
                 reverseOrder={true}
                 toastOptions={{
                     duration: 5000,
                 }}
-            /> */}
+            />
     </div>
   );
 };
