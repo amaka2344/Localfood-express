@@ -31,7 +31,6 @@ const uploadImage = async (base64String) => {
     return response.data.secure_url;
 
   } catch (error) {
-    alert(JSON.stringify(error));
     throw new Error(error);
   }
 };

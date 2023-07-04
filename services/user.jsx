@@ -172,4 +172,18 @@ const searchVendors = async (searchTerm) => {
   }
 };
 
-export { register, login, getUser, registerVendor, getVendors, searchVendors };
+const getLoggedInUser = async () => {
+  try {
+    let user = localStorage.getItem("loggedInUser");
+    if(user!==null || user!==undefined){
+     user = JSON.parse(user);
+     return user;
+    }
+    return false;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+
+export { register, login, getUser, registerVendor, getVendors, searchVendors, getLoggedInUser };
