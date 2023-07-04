@@ -9,6 +9,7 @@ import {
   collection,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
+import { uploadImage } from "./misc";
 
 /*
   Sample product schema
@@ -27,6 +28,9 @@ import { auth, db } from "./firebase";
 
 const createProduct = async (productData) => {
   try {
+     //upload product photo to cloudinary
+    const photo = await uploadImage(productData.photo);
+    productData["photo"] = photo;
     const docRef = await addDoc(collection(db, "products"), productData);
     //console.log('Product created with ID: ', docRef.id);
     return { success: true, message: "Product added successfully" };
@@ -38,6 +42,21 @@ const createProduct = async (productData) => {
 const getProducts = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "products"));
+    const products = [];
+    querySnapshot.forEach((doc) => {
+      products.push({ id: doc.id, ...doc.data() });
+    });
+    return { success: true, message: "", products };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getProductsByVendor = async (userId) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "products"), where("userId", "==", userId), where("deleted", "==", false))
+    );
     const products = [];
     querySnapshot.forEach((doc) => {
       products.push({ id: doc.id, ...doc.data() });
@@ -74,6 +93,8 @@ const updatedData = {
 */
 const updateProduct = async (productId, updatedData) => {
   try {
+    const photo = await uploadImage(updatedData.photo);
+    updatedData["photo"] = photo;
     const productRef = doc(db, "products", productId);
     await updateDoc(productRef, updatedData);
     return { success: true, message: "Product updated successfully" };
@@ -98,4 +119,4 @@ const deleteProduct = async (productId, updatedData) => {
   }
 };
 
-export { createProduct, getProducts, getProduct, updateProduct, deleteProduct };
+export { createProduct, getProducts, getProduct, getProductsByVendor, updateProduct, deleteProduct };
