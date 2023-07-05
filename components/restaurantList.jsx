@@ -17,11 +17,11 @@ const RestaurantList = (props) => {
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
             >
               <Link
-                href={`/AllRestaurants/${restaurant.id}`}
+                href={`/AllRestaurants/${restaurant.uid}`}
                 key={restaurant.id}
               >
                 <div className="max-w-sm rounded overflow-hidden shadow cursor-pointer">
-                  <Link href={`/AllRestaurants/${restaurant.id}`}>
+                  <Link href={`/AllRestaurants/${restaurant.uid}`}>
                     <a>
                       <Image
                         className="w-full cursor-pointer"
@@ -33,7 +33,7 @@ const RestaurantList = (props) => {
                     </a>
                   </Link>
                   <div className="px-6 py-4">
-                    <Link href={`/AllRestaurants/${restaurant.id}`}>
+                    <Link href={`/AllRestaurants/${restaurant.uid}`}>
                       <a>
                         <h2 className="font-bold text-xl mb-2 cursor-pointer text-black hover:text-[#A1C75C]">
                           {restaurant.userName}

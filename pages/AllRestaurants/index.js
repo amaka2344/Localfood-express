@@ -5,10 +5,12 @@ import MainPageNav from "../../components/mainPageNavbar/mainPageNav";
 import Footer from "../../components/Footer";
 
 import { getVendors, searchVendors } from "../../services/user";
+import { getStorageParam } from "../../services/misc";
 
 const AllRestaurants = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [restaurants, setRestaurants] = useState([]);
+  const [address, setAddress] = useState("");
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -32,7 +34,17 @@ const AllRestaurants = () => {
     }
   };
 
+  const getAddress = async () => {
+    try {
+      const response = await getStorageParam("address");
+      setAddress(response);
+    } catch (error) {
+      toast.error("An error occured");
+    }
+  };
+
   useEffect(() => {
+    getAddress();
     getRestaurants();
   }, []);
 
@@ -42,9 +54,11 @@ const AllRestaurants = () => {
       <div className="pt-[8%] items-center py-1  px-[4%] md:px-[6%] ">
         <div className="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
           <div className="relative flex-grow w-full">
-            <h1 className="leading-7 text-lg text-gray-800">Delivering To:</h1>
+            <h1 className="leading-7 text-lg text-gray-800">
+              <b>Delivering To:</b>
+            </h1>
             <p className="w-full text-base outline-none text-gray-700 py-1 leading-8">
-              123 Main St, City, Country
+              {address}
             </p>
           </div>
           <div className="relative flex-grow w-full">

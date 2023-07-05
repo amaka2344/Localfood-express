@@ -63,6 +63,7 @@ const Login = () => {
         toast.error("login failed");
       }
     } catch (error) {
+      setIsLoading(false);
       console.log("Error:", error);
       toast.error("Login failed", error);
       if (error.message.includes("wrong-password")) {

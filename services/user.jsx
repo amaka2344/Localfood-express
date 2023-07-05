@@ -134,6 +134,22 @@ const getUser = async (userId) => {
   }
 };
 
+
+const getVendor = async (vendorId) => {
+  try {
+    const querySnapshot = await getDocs(query(collection(db, "users"), where("uid", "==", vendorId)));
+    if (!querySnapshot.empty) {
+      const docSnapshot = querySnapshot.docs[0];
+      const userData = { id: docSnapshot.id, ...docSnapshot.data() };
+      return { success: true, message: "", userData };
+    } else {
+      throw new Error("No user found with the specified email");
+    }
+  } catch (error) {
+    throw new Error("Error getting user: ", error);
+  }
+};
+
 const getVendors = async () => {
   try {
     const querySnapshot = await getDocs(
@@ -186,4 +202,4 @@ const getLoggedInUser = async () => {
 };
 
 
-export { register, login, getUser, registerVendor, getVendors, searchVendors, getLoggedInUser };
+export { register, login, getUser, registerVendor, getVendors, getVendor, searchVendors, getLoggedInUser };

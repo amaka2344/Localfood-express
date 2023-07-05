@@ -79,6 +79,7 @@ const Dashboard = () => {
       setLoading(false);
       if (response.hasOwnProperty("success") && response.success) {
         toast.success(response.message);
+        handleGetProductsByVendor();
         handleCloseDeleteModal();
       } else {
         toast.error("Oops!!, failed to delete product");
@@ -118,7 +119,7 @@ const Dashboard = () => {
       } else {
         toast.error("Oops!!, product creation failed");
       }
-      handlegetProductsByVendor();
+      handleGetProductsByVendor();
       setEdit(false);
       //close the modal
       handleCloseModal();
@@ -142,7 +143,7 @@ const Dashboard = () => {
     }
   };
 
-  const handlegetProductsByVendor = async () => {
+  const handleGetProductsByVendor = async () => {
     try {
       const response = await getProductsByVendor(user.uid);
       setProductList(response.products);
@@ -166,7 +167,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    handlegetProductsByVendor();
+    handleGetProductsByVendor();
   }, [user]);
 
   return (
