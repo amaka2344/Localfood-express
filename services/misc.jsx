@@ -19,20 +19,30 @@ const geocodeAddress = async (address) => {
 
 const uploadImage = async (base64String) => {
   try {
-
     const response = await axios.post(
-      'https://api.cloudinary.com/v1_1/duci5ynen/image/upload',
+      "https://api.cloudinary.com/v1_1/duci5ynen/image/upload",
       {
         file: base64String,
-        upload_preset: 'localfood',
+        upload_preset: "localfood",
       }
     );
 
     return response.data.secure_url;
-
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export { geocodeAddress, uploadImage };
+const getStorageParam = async (param) => {
+  try {
+    const value = localStorage.getItem(param);
+    if (value !== null || value !== undefined) {
+      return value;
+    }
+    return false;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { geocodeAddress, uploadImage, getStorageParam };
