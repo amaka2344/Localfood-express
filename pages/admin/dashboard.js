@@ -44,7 +44,7 @@ const Dashboard = () => {
       setPhoto(base64String);
     };
     reader.readAsDataURL(file);
-  };
+  }
 
   const handleAddProduct = () => {
     setIsModalOpen(true);
@@ -306,8 +306,8 @@ const Dashboard = () => {
                   <div className="mb-4">
                     <label className="flex items-center">
                       <input
-                        name="published"
-                        defaultValue={product.published}
+                        name='published'
+                        checked={productList.published}
                         type="checkbox"
                         className="mr-2"
                       />
