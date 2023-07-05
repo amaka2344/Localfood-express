@@ -65,6 +65,7 @@ const Login = () => {
     } catch (error) {
       console.log("Error:", error);
       toast.error("Login failed", error);
+      setIsLoading(false)
       if (error.message.includes("wrong-password")) {
         toast.error("User does not exist");
       } else {

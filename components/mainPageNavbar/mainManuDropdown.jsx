@@ -25,7 +25,7 @@ const MainMenuDropdown = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/cart'>
+                    <Link href='/profile'>
                         <a>
                             <span className="flex items-center px-5 py-3 hover:bg-amber-100 ">
                                 <BsPersonAdd className="text-lg me-3" /> Profile

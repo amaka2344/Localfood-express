@@ -7,6 +7,7 @@ import spagetti from "../../public/spagetti.jpg";
 import MainPageNav from "../../components/mainPageNavbar/mainPageNav";
 import Footer from "../../components/Footer";
 import { getUser } from "../../services/user";
+import Link from "next/link";
 
 const RestaurantId = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const RestaurantId = () => {
       <div className="pt-[6%]">
         <Image
           className="w-full"
-          height={300}
+          height={400}
           src={spagetti}
           //you can use the restaurant logo here; or can also collect banner upload at reg time
           alt="spaghetti banner"
@@ -52,7 +53,6 @@ const RestaurantId = () => {
             </Typography>
           </figcaption>
         </figure>
-
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-wrap -m-4">
@@ -72,9 +72,11 @@ const RestaurantId = () => {
                       <p className="ml-2 text-amber-500 pr-8 font-bold">
                         &#x20A6;500
                       </p>
-                      <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
-                        <BiPlus />
-                      </button>
+                      <Link href='/cart'>
+                        <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
+                          <BiPlus />
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -93,9 +95,12 @@ const RestaurantId = () => {
                     </p>
                     <div className="flex items-center mt-3 justify-end ">
                       <p className="ml-2 text-amber-500 pr-8">Food Price</p>
-                      <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
-                        <BiPlus />
-                      </button>
+                      <Link href='/cart'>
+                        <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
+                          <BiPlus />
+                        </button>
+                      </Link>
+
                     </div>
                   </div>
                 </div>

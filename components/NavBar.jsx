@@ -47,7 +47,7 @@ const NavBar = () => {
           </div>
 
           <section className="flex items-center text-black">
-            <Link href='/'>
+            <Link href='/cart'>
               <a>
                 <ul className='hidden md:flex justify-between text-2xl'>
                   <li className='relative p-2 rounded cursor-pointer mx-2 transition '>

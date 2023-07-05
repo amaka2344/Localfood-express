@@ -48,7 +48,7 @@ const NavBar = () => {
                 </ul>
                 </a>
           </Link>
-          <Link href='/'>
+          <Link href='/cart'>
             <a>
             <ul className='hidden md:flex justify-between text-2xl'>
               <li className='relative p-2 pt-0 rounded-full hover:bg-[#cae39b] cursor-pointer mx-2 transition'>

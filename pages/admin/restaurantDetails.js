@@ -74,7 +74,7 @@ const RestaurantDetails = () => {
           password: "",
         });
         // navigate user to login page
-        alert("Registration Successful, redirecting to login");
+        toast.success("Registration Successful, redirecting to login");
         setTimeout(() => {
           router.push("/login");
         }, 1000); // Delay of 2 seconds (adjust as needed)
