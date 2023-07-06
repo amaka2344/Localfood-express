@@ -69,15 +69,15 @@ const MainPageNavBar = () => {
             <div className="absolute top-0 right-0 mt-8 mr-8 w-48 bg-white shadow-lg rounded-lg">
 
               <ul className="py-2">
-                <Link href='/edit-profile'>
+                <Link href='/editProfile '>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleDropdownClose}>
                     <a>Edit Profile</a>
                   </li>
                 </Link>
                 
-                <Link href='/past-orders'>
+                <Link href='/orders/recentOrders'>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleDropdownClose}>
-                    <a>Past Orders</a>
+                    <a>Recent Orders</a>
                   </li>
                 </Link>
                 <Link href='/logout'>

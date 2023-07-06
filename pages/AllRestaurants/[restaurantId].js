@@ -13,19 +13,64 @@ const RestaurantId = () => {
   const router = useRouter();
   const { restaurantId } = router.query;
   const [restaurant, setRestaurant] = useState(null);
+  const [productList, setProductList] = useState([]);
+  const [user, setUser] = useState({});
 
   const getRestaurant = async () => {
     try {
-      const response = await getUser(restaurantId);
+      const response = await getVendor(restaurantId);
       setRestaurant(response.userData);
     } catch (error) {
       toast.error("An error occured");
     }
   };
 
+  const handleGetProductsByVendor = async () => {
+    try {
+      const response = await getProductsByVendor(restaurantId);
+      setProductList(response.products);
+    } catch (error) {
+      toast.error("error");
+    }
+  };
+
+  const handleAddCart = async (product) => {
+    try {
+      const cartData = {
+        productId: product.id,
+        quantity: 1,
+        price: product.price,
+        unit: product.unitId,
+        userId: user.uid,
+        vendor: product.userId,
+        photo: product.photo,
+        productName: product.productName,
+      };
+      const response = await addCart(cartData);
+      if (response.hasOwnProperty("success") && response.success) {
+        toast.success("Product added to cart");
+      } else {
+        toast.error("Oops!!, failed to add product to cart");
+      }
+    } catch (error) {
+      toast.error("error");
+    }
+  };
+
+  const handleCheckLogin = async () => {
+    const user = await getLoggedInUser();
+    if (!user) {
+      toast.error("Please login");
+      router.push("/login");
+    }
+    setUser(user);
+  };
+
   useEffect(() => {
+    handleCheckLogin();
     getRestaurant();
-  }, []);
+    handleGetProductsByVendor();
+  }, [restaurantId]);
 
   return (
     <>
@@ -56,55 +101,47 @@ const RestaurantId = () => {
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-wrap -m-4">
-              <div className="p-4 lg:w-1/2 md:w-full">
-                <div className="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
-                  <div className="w-[20%] sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center flex-shrink-0">
-                    <Image src={spagetti} alt="Food" className="w-12 h-12" />
-                  </div>
-                  <div className="flex-grow">
-                    <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-                      Roasted Yam And Plantain
-                    </h2>
-                    <p className="leading-relaxed text-base">
-                      Food description goes here.
-                    </p>
-                    <div className="flex items-center mt-3 justify-end">
-                      <p className="ml-2 text-amber-500 pr-8 font-bold">
-                        &#x20A6;500
-                      </p>
-                      <Link href='/cart'>
-                        <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
-                          <BiPlus />
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 lg:w-1/2 md:w-full">
-                <div className="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
-                  <div className="w-[20%] sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center flex-shrink-0">
-                    <Image src={spagetti} alt="Food" className="w-12 h-12" />
-                  </div>
-                  <div className="flex-grow">
-                    <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-                      Food Name
-                    </h2>
-                    <p className="leading-relaxed text-base">
-                      Food description goes here.
-                    </p>
-                    <div className="flex items-center mt-3 justify-end ">
-                      <p className="ml-2 text-amber-500 pr-8">Food Price</p>
-                      <Link href='/cart'>
-                        <button className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded">
-                          <BiPlus />
-                        </button>
-                      </Link>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {productList.length > 0 &&
+                productList.map((product, index) => {
+                  return (
+                    <>
+                      <div key={index} className="p-4 lg:w-1/2 md:w-full">
+                        <div className="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+                          <div className="w-[20%] sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center flex-shrink-0">
+                            <Image
+                              src={product.photo}
+                              width="300"
+                              height="300"
+                              alt="Food"
+                              className="w-12 h-12"
+                            />
+                          </div>
+                          <div className="flex-grow">
+                            <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                              {product.productName}
+                            </h2>
+                            <p className="leading-relaxed text-base">
+                              {product.description}
+                            </p>
+                            <div className="flex items-center mt-3 justify-end">
+                              <p className="ml-2 text-amber-500 pr-8 font-bold">
+                                &#x20A6; {product.price} / {product.unitId}
+                              </p>
+                              <button
+                                className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded"
+                                onClick={() => {
+                                  handleAddCart(product);
+                                }}
+                              >
+                                <BiPlus />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
             </div>
           </div>
         </section>
