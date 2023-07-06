@@ -79,7 +79,7 @@ const Register = () => {
   return (
     <div>
       <NavBar />
-      <div className="text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%]">
+      <div className="text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%] text-black">
         <div className="items-center justify-center flex pb-10">
           <Image src={icon} alt="icon" width={100} height={70} />
         </div>

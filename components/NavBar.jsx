@@ -18,7 +18,7 @@ const NavBar = () => {
           <section className="relative flex items-center">
             <Link href='/' className=' cursor-pointer'>
               <a>
-                <Image src={logoPic} alt='logo pic' width={40} height={40} />
+                <Image src={logoPic} alt='logo pic' width={45} height={40} />
               </a>
             </Link>
             <Logo />

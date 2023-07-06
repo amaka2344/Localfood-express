@@ -57,7 +57,7 @@ const Login = () => {
         if (response.userData.userType === "vendor") {
           router.push("/admin/dashboard/");
         } else {
-          router.push("/AllRestaurants/");
+          router.push("/userHomepage");
         }
       } else {
         toast.error("login failed");
@@ -97,7 +97,7 @@ const Login = () => {
             placeholder="email"
             value={userDetails.email}
             name="email"
-            className="border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black"
+            className="border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black text-black"
             onChange={onChangeInHandler}
           />{" "}
           <br />
