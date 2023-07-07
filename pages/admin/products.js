@@ -173,7 +173,7 @@ const Products = () => {
     <>
       <div className="flex h-screen">
         {/* Left-hand side navigation */}
-        <div className="flex flex-col bg-gray-200 w-[20%] md:w-[12%] text-black pt-[50px]">
+        <div className="flex flex-col bg-black w-[20%] md:w-[12%] text-white pt-[50px]">
           <h1 className="text-center pt-8 font-bold text-2xl">
             Local food-express
           </h1>

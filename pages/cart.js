@@ -2,11 +2,12 @@ import React from 'react'
 import Image from 'next/image'
 import Footer from '../components/Footer'
 import MainPageNav from '../components/mainPageNavbar/mainPageNav'
+import { BiX } from 'react-icons/bi'
 
 const cart = () => {
   return (
     <div>
-      <MainPageNav/>
+      <MainPageNav />
       <div className="p-6 md:p-10 lg:p-16">
         <div className="flex flex-col md:flex-row lg:pt-[6%] md:pt-[10%] sm:pt-[12%]">
           <div className="md:w-2/3 ">
@@ -39,6 +40,13 @@ const cart = () => {
                   <td>
                     <span className="font-medium text-2xl">$500</span>
                   </td>
+                  <td>
+                    <button
+                        className=" hover:bg-[#A1C75C] outline outline-1 outline-[#A1C75C] text-black hover:text-white font-bold py-2 px-4 rounded"
+                    >
+                      <BiX />
+                    </button>
+                  </td>
                 </tr>
 
                 <tr>
@@ -58,6 +66,13 @@ const cart = () => {
                   </td>
                   <td>
                     <span className="font-medium text-2xl">$500</span>
+                  </td>
+                  <td>
+                    <button
+                      className=" hover:bg-[#A1C75C] outline outline-1 outline-[#A1C75C] text-black hover:text-white font-bold py-2 px-4 rounded"
+                    >
+                      <BiX />
+                    </button>
                   </td>
                 </tr>
 
