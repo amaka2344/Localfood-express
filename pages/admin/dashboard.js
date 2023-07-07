@@ -1,8 +1,9 @@
-import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import TopNav from '../../components/adminTopNav';
 import Link from 'next/link';
 import { Bar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 const Dashboard = () => {
   const [customerCount, setCustomerCount] = useState(0);
@@ -33,10 +34,10 @@ const Dashboard = () => {
 
     // Simulating recent orders data
     setRecentOrders([
-      { orderId: 'ORD001', customerName:'amaka', foodName: 'plantain and yam', price: 500, status: 'Delivered' },
-      { orderId: 'ORD002', customerName:'amaka', foodName: 'mallams tea', price: 100, status: 'Processing' },
-      { orderId: 'ORD003', customerName:'amaka', foodName: 'nwkobi', price: 800, status: 'Paid' },
-      { orderId: 'ORD004', customerName:'amaka', foodName: 'bread and akara', price: 600, status: 'On the way' },
+      { orderId: 'ORD001', customerName: 'amaka', foodName: 'plantain and yam', price: 500, status: 'Delivered' },
+      { orderId: 'ORD002', customerName: 'amaka', foodName: 'mallams tea', price: 100, status: 'Processing' },
+      { orderId: 'ORD003', customerName: 'amaka', foodName: 'nwkobi', price: 800, status: 'Paid' },
+      { orderId: 'ORD004', customerName: 'amaka', foodName: 'bread and akara', price: 600, status: 'On the way' },
     ]);
   }, []);
 
@@ -63,6 +64,7 @@ const Dashboard = () => {
     scales: {
       x: {
         type: 'category',
+        labels: orderLabels,
         offset: true,
       },
       y: {
@@ -78,8 +80,8 @@ const Dashboard = () => {
     <>
       <div className="flex h-[100%]]">
         {/* Left-hand side navigation */}
-        <div className="flex flex-col bg-gray-200 w-[20%] md:w-[12%] text-black pt-[50px]">
-          <h1 className="text-center pt-8 font-bold text-2xl">
+        <div className="flex flex-col bg-black w-[20%] md:w-[12%] text-white pt-[50px]">
+          <h1 className="text-center pt-2 font-bold text-2xl">
             Local food-express
           </h1>
           <ul className="flex flex-col mt-8">
