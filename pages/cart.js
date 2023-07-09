@@ -9,6 +9,7 @@ import { getCartsByUserId, deleteCart } from "../services/cart";
 import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
+import { BiX } from 'react-icons/bi'
 
 const cart = () => {
   const router = useRouter();
