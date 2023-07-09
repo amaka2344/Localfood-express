@@ -15,7 +15,7 @@ const Order = () => {
     return (
         <div>
             <MainPageNav/>
-            <div className='p-[50px] flex lg:pt-[6%] md:pt-[10%] sm:pt-[12%] px-[6%]'>
+            <div className='p-[50px] flex lg:pt-[8%] md:pt-[10%] sm:pt-[12%] px-[6%]'>
                 <div className='flex-[2]'>
                     <div>
                         <table className="w-full border-collapse text-left  text-black">

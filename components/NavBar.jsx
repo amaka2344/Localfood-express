@@ -48,7 +48,7 @@ const NavBar = () => {
           <section className="relative flex items-center">
             <Link href="/" className=" cursor-pointer">
               <a>
-                <Image src={logoPic} alt="logo pic" width={40} height={40} />
+                <Image src={logoPic} alt='logo pic' width={45} height={40} />
               </a>
             </Link>
             <Logo />
@@ -77,7 +77,7 @@ const NavBar = () => {
           </div>
 
           <section className="flex items-center text-black">
-            <Link href="/cart">
+            <Link href='/cart'>
               <a>
                 <ul className="hidden md:flex justify-between text-2xl">
                   <li className="relative p-2 rounded cursor-pointer mx-2 transition ">

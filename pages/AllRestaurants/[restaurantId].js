@@ -6,7 +6,7 @@ import Image from "next/image";
 import spagetti from "../../public/spagetti.jpg";
 import MainPageNav from "../../components/mainPageNavbar/mainPageNav";
 import Footer from "../../components/Footer";
-import { getVendor, getLoggedInUser } from "../../services/user";
+import { getVendor, getLoggedInUser, getUser } from "../../services/user";
 import { getProductsByVendor } from "../../services/product";
 import { addCart } from "../../services/cart";
 import toast, { Toaster } from "react-hot-toast";
@@ -80,7 +80,7 @@ const RestaurantId = () => {
       <div className="pt-[6%]">
         <Image
           className="w-full"
-          height={300}
+          height={400}
           src={spagetti}
           //you can use the restaurant logo here; or can also collect banner upload at reg time
           alt="spaghetti banner"
@@ -100,7 +100,6 @@ const RestaurantId = () => {
             </Typography>
           </figcaption>
         </figure>
-
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-wrap -m-4">
