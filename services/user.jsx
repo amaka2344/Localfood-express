@@ -177,7 +177,8 @@ const searchVendors = async (searchTerm) => {
     });
 
     const options = {
-      keys: ["userName", "address"], // Specify the keys to search in your restaurant objects
+      keys: ["userName", "address"],
+      threshold: 0.3 // Specify the keys to search in your restaurant objects
     };
     const fuse = new Fuse(users, options);
     const results = fuse.search(searchTerm);
