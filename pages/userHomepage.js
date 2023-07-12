@@ -28,6 +28,7 @@ const UserHomepage = () => {
       localStorage.setItem("address", address);
       router.push("/AllRestaurants");
     } catch (error) {
+      alert(JSON.stringify(error));
       toast.error("We could not proceed with request");
     }
   };
@@ -53,10 +54,10 @@ const UserHomepage = () => {
             <input
               type="text"
               placeholder="Enter your Delivery Address"
-              className="text-black ml-2 w-full px-4 py-2 border border-gray-100 rounded-md focus:outline-none focus:ring focus:ring-amber-100"
               onChange={(e) => {
                 setAddress(e.target.value);
               }}
+              className="text-black ml-2 w-full px-4 py-2 border border-gray-100 rounded-md focus:outline-none focus:ring focus:ring-amber-100"
             />
             <button className="text-black" onClick={handleFetchVendors}>
               Go
