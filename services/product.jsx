@@ -28,7 +28,7 @@ import { uploadImage } from "./misc";
 
 const createProduct = async (productData) => {
   try {
-     //upload product photo to cloudinary
+    //upload product photo to cloudinary
     const photo = await uploadImage(productData.photo);
     productData["photo"] = photo;
     const docRef = await addDoc(collection(db, "products"), productData);
@@ -55,7 +55,11 @@ const getProducts = async () => {
 const getProductsByVendor = async (userId) => {
   try {
     const querySnapshot = await getDocs(
-      query(collection(db, "products"), where("userId", "==", userId), where("deleted", "==", false))
+      query(
+        collection(db, "products"),
+        where("userId", "==", userId),
+        where("deleted", "==", false)
+      )
     );
     const products = [];
     querySnapshot.forEach((doc) => {
@@ -103,6 +107,17 @@ const updateProduct = async (productId, updatedData) => {
   }
 };
 
+const getTotalProducts = async (vendorId) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "products"), where("userId", "==", vendorId))
+    );
+    return { success: true, message: "", count: querySnapshot.size };
+  } catch (error) {
+    throw new Error("Error getting products: ", error);
+  }
+};
+
 /*
 const productId = 'product123';
 const updatedData = {
@@ -119,4 +134,12 @@ const deleteProduct = async (productId, updatedData) => {
   }
 };
 
-export { createProduct, getProducts, getProduct, getProductsByVendor, updateProduct, deleteProduct };
+export {
+  createProduct,
+  getProducts,
+  getProduct,
+  getProductsByVendor,
+  getTotalProducts,
+  updateProduct,
+  deleteProduct,
+};

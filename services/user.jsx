@@ -134,10 +134,11 @@ const getUser = async (userId) => {
   }
 };
 
-
 const getVendor = async (vendorId) => {
   try {
-    const querySnapshot = await getDocs(query(collection(db, "users"), where("uid", "==", vendorId)));
+    const querySnapshot = await getDocs(
+      query(collection(db, "users"), where("uid", "==", vendorId))
+    );
     if (!querySnapshot.empty) {
       const docSnapshot = querySnapshot.docs[0];
       const userData = { id: docSnapshot.id, ...docSnapshot.data() };
@@ -192,9 +193,9 @@ const searchVendors = async (searchTerm) => {
 const getLoggedInUser = async () => {
   try {
     let user = localStorage.getItem("loggedInUser");
-    if(user!==null || user!==undefined){
-     user = JSON.parse(user);
-     return user;
+    if (user !== null || user !== undefined) {
+      user = JSON.parse(user);
+      return user;
     }
     return false;
   } catch (error) {
@@ -202,5 +203,23 @@ const getLoggedInUser = async () => {
   }
 };
 
+const logOutUser = async () => {
+  try {
+    localStorage.removeItem("loggedInUser");
+    return true;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-export { register, login, getUser, registerVendor, getVendors, getVendor, searchVendors, getLoggedInUser };
+export {
+  register,
+  login,
+  getUser,
+  registerVendor,
+  getVendors,
+  getVendor,
+  searchVendors,
+  getLoggedInUser,
+  logOutUser,
+};

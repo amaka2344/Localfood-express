@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import TopNav from "../../components/adminTopNav";
 import Link from "next/link";
 import { Chip } from "@material-tailwind/react";
-import { getLoggedInUser } from "../../services/user";
+import { getLoggedInUser, logOutUser } from "../../services/user";
 import { addUnit, getAllUnits } from "../../services/units";
 import {
   getProductsByVendor,
@@ -14,6 +15,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 
 const Products = () => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -32,7 +34,7 @@ const Products = () => {
     published: "on",
   });
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -43,7 +45,7 @@ const Products = () => {
       setPhoto(base64String);
     };
     reader.readAsDataURL(file);
-  }
+  };
 
   const handleAddProduct = () => {
     setIsModalOpen(true);
@@ -160,6 +162,11 @@ const Products = () => {
     setUser(user);
   };
 
+  const logOut = async () => {
+    await logOutUser();
+    router.push("/login");
+  };
+
   useEffect(() => {
     handleCheckLogin();
     handleGetUnits();
@@ -207,6 +214,14 @@ const Products = () => {
                   Orders
                 </a>
               </Link>
+            </li>
+            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+              <a className="flex items-center">
+                <span className="w-6 h-6 mr-2">
+                  {/* Add your navigation icon here */}
+                </span>
+                Logout
+              </a>
             </li>
             {/* Add more navigation links here */}
           </ul>
@@ -305,7 +320,7 @@ const Products = () => {
                   <div className="mb-4">
                     <label className="flex items-center">
                       <input
-                        name='published'
+                        name="published"
                         checked={productList.published}
                         type="checkbox"
                         className="mr-2"
