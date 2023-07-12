@@ -1,19 +1,18 @@
+import { React, useState } from "react";
 import { BsGeo } from "react-icons/bs";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { toast, Toaster } from "react-hot-toast";
 import soup from "../public/soup-removebg-preview.png";
 import Image from "next/image";
 import logo11 from "../public/logo11.png";
 import logo12 from "../public/logo12.png";
 import logo13 from "../public/logo13.png";
 import RestaurantCard from "../components/restuarantCard";
-import NavBar from "../components/NavBar";
+import MainPageNavBar from "../components/mainPageNavbar/mainPageNav";
 import Footer from "../components/Footer";
-import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
-import { useRouter } from "next/router";
 import { geocodeAddress } from "../services/misc";
 
-export default function Home() {
+const UserHomepage = () => {
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,10 +31,9 @@ export default function Home() {
       toast.error("We could not proceed with request");
     }
   };
-
   return (
     <div>
-      <NavBar />
+      <MainPageNavBar />
       <div className="flex justify-between items-center py-1  px-[4%] md:px-[6%]">
         <section className="max-w-xl mx-auto sm:mx-0 w-full lg:w-1/3 sm:mt-[20%] pb-[15%]">
           <h1 className=" text-6xl sm:text-7xl lg:text-6xl font-semibold text-black w-full">
@@ -60,8 +58,17 @@ export default function Home() {
                 setAddress(e.target.value);
               }}
             />
-            <button onClick={handleFetchVendors}>Go</button>
+            <button className="text-black" onClick={handleFetchVendors}>
+              Go
+            </button>
           </div>
+          <Toaster
+            position="bottom-center"
+            reverseOrder={true}
+            toastOptions={{
+              duration: 5000,
+            }}
+          />
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
           <Image src={soup} alt="heroImg" className="w-2/3 h-full" />
@@ -133,4 +140,5 @@ export default function Home() {
       <Footer />
     </div>
   );
-}
+};
+export default UserHomepage;
