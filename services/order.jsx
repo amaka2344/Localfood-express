@@ -50,11 +50,16 @@ const addOrder = async (order) => {
 
 const updateOrder = async (orderId, updatedData) => {
   try {
-    const orderRef = doc(db, "orders", orderId);
-    await updateDoc(orderRef, updatedData);
+    const querySnapshot = await getDocs(
+      query(collection(db, "orders"), where("orderId", "==", orderId))
+    );
+    querySnapshot.forEach(async (doc) => {
+      const orderRef = doc.ref;
+      await updateDoc(orderRef, updatedData);
+    });
     return { success: true, message: "Order updated successfully" };
   } catch (error) {
-    throw new Error("Error updating order: ", error);
+    throw new Error("Error updating order: " + error);
   }
 };
 
@@ -68,7 +73,6 @@ const getAllOrders = async () => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("All orders:", orders);
       return { success: true, message: "", orders };
     } else {
       throw new Error("No orders found");
@@ -80,14 +84,15 @@ const getAllOrders = async () => {
 
 const getOrderById = async (orderId) => {
   try {
-    const orderRef = doc(db, "orders", orderId);
-    const docSnapshot = await getDoc(orderRef);
-
-    if (docSnapshot.exists()) {
-      const orderData = docSnapshot.data();
+    const querySnapshot = await getDocs(
+      query(collection(db, "orders"), where("orderId", "==", orderId))
+    );
+    if (!querySnapshot.empty) {
+      const docSnapshot = querySnapshot.docs[0];
+      const orderData = { id: docSnapshot.id, ...docSnapshot.data() };
       return { success: true, message: "", orderData };
     } else {
-      throw new Error("No order found with the specified ID");
+      throw new Error("No order found with the specified id");
     }
   } catch (error) {
     throw new Error("Error getting order: ", error);
@@ -116,19 +121,14 @@ const getOrdersByStatus = async (status) => {
 
 const getOrdersByVendorId = async (vendorId) => {
   try {
-    const ordersCollection = collection(db, "orders");
-    const q = query(ordersCollection, where("vendorId", "==", vendorId));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      const orders = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      return { success: true, message: "", orders };
-    } else {
-      throw new Error("No orders found with the specified vendor ID");
-    }
+    const querySnapshot = await getDocs(
+      query(collection(db, "orders"), where("vendorId", "==", vendorId))
+    );
+    const orders = [];
+    querySnapshot.forEach((doc) => {
+      orders.push({ id: doc.id, ...doc.data() });
+    });
+    return { success: true, message: "", orders };
   } catch (error) {
     throw new Error("Error getting orders: ", error);
   }
@@ -136,19 +136,29 @@ const getOrdersByVendorId = async (vendorId) => {
 
 const getOrdersByUserId = async (userId) => {
   try {
-    const ordersCollection = collection(db, "orders");
-    const q = query(ordersCollection, where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(
+      query(collection(db, "orders"), where("userId", "==", userId))
+    );
+    const orders = [];
+    querySnapshot.forEach((doc) => {
+      orders.push({ id: doc.id, ...doc.data() });
+    });
+    return { success: true, message: "", orders };
+  } catch (error) {
+    throw new Error("Error getting orders: ", error);
+  }
+};
 
-    if (!querySnapshot.empty) {
-      const orders = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      return { success: true, message: "", orders };
-    } else {
-      throw new Error("No orders found with the specified user ID");
-    }
+const getTotalPendingOrders = async (vendorId) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "orders"),
+        where("vendorId", "==", vendorId),
+        where("status", "==", "pending")
+      )
+    );
+    return { success: true, message: "", count: querySnapshot.size };
   } catch (error) {
     throw new Error("Error getting orders: ", error);
   }
@@ -172,5 +182,6 @@ export {
   getOrdersByStatus,
   getOrdersByVendorId,
   getOrdersByUserId,
+  getTotalPendingOrders,
   deleteOrder,
 };

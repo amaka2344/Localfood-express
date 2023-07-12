@@ -1,12 +1,15 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { getLoggedInUser } from "../services/user";
 
 const TopNav = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [restaurantName, setRestaurantName] = useState('Restaurant Name');
-  const [restaurantAddress, setRestaurantAddress] = useState('Restaurant Address');
+  const [restaurantName, setRestaurantName] = useState("Restaurant Name");
+  const [restaurantAddress, setRestaurantAddress] =
+    useState("Restaurant Address");
   const [editing, setEditing] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [newAddress, setNewAddress] = useState('');
+  const [newName, setNewName] = useState("");
+  const [newAddress, setNewAddress] = useState("");
+  const [user, setUser] = useState(null);
 
   const handleSettingsClick = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -25,11 +28,18 @@ const TopNav = () => {
     setIsDrawerOpen(false); // Close the drawer after saving
   };
 
+  const handleCheckLogin = async () => {
+    const user = await getLoggedInUser();
+    setUser(user);
+  };
+
+  useEffect(() => {
+    handleCheckLogin();
+  }, []);
+
   return (
     <nav className=" flex items-center justify-between bg-[#A1C75C] text-white px-4 py-3 mb-[5%]">
-      <div className="text-2xl font-bold">
-        {restaurantName}
-      </div>
+      <div className="text-2xl font-bold">{user !== null && user.userName}</div>
       <div>
         <button
           className="text-white hover:text-gray-300 focus:text-gray-300"
@@ -59,7 +69,7 @@ const TopNav = () => {
                 )}
                 <button
                   className="text-amber-500 ml-2"
-                  onClick={() => handleEditClick('name')}
+                  onClick={() => handleEditClick("name")}
                 >
                   Edit
                 </button>
@@ -80,7 +90,7 @@ const TopNav = () => {
                 )}
                 <button
                   className="text-amber-500 ml-2"
-                  onClick={() => handleEditClick('address')}
+                  onClick={() => handleEditClick("address")}
                 >
                   Edit
                 </button>

@@ -62,21 +62,14 @@ const getCart = async (cartId) => {
 
 const deleteCart = async (userId) => {
   try {
-    const querySnapshot = await query(
-      collection(db, "carts"),
-      where("userId", "==", userId)
+    const updatedData = { deleted: true };
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("userId", "==", userId))
     );
-    
-    const cartDocs = [];
-    querySnapshot.forEach((doc) => {
-      cartDocs.push(doc);
+    querySnapshot.forEach(async (doc) => {
+      const cartRef = doc.ref;
+      await updateDoc(cartRef, updatedData);
     });
-
-    const deletePromises = cartDocs.map((cartDoc) => deleteDoc(cartDoc.ref));
-    await Promise.all(deletePromises);
-    
-    alert(userId);
-    
     return { success: true, message: "Cart deleted successfully" };
   } catch (error) {
     throw new Error("Error deleting cart");

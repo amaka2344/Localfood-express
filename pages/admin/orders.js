@@ -1,40 +1,88 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import TopNav from "../../components/adminTopNav";
 import Link from "next/link";
 import { Chip } from "@material-tailwind/react";
-import { getLoggedInUser } from "../../services/user";
-import { addUnit, getAllUnits } from "../../services/units";
-import {
-  getProductsByVendor,
-  updateProduct,
-  createProduct,
-  deleteProduct,
-} from "../../services/product";
+import { getLoggedInUser, logOutUser } from "../../services/user";
+import { getOrdersByVendorId, updateOrder } from "../../services/order";
 import toast, { Toaster } from "react-hot-toast";
 
 const Orders = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [productList, setProductList] = useState([]);
-  const [units, setUnits] = useState([]);
-  const [photo, setPhoto] = useState("");
-  const [title, setTitle] = useState("Add Product");
-  const [edit, setEdit] = useState(false);
-  const [product, setProduct] = useState({
-    productName: "",
-    description: "",
-    price: "",
-    unitId: "",
-    stockQuantity: "",
-    packagingTime: "30",
-    published: "on",
-  });
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState(null);
+  const [orderId, setOrderId] = useState("");
 
-  
+  const handleCheckLogin = async () => {
+    const user = await getLoggedInUser();
+    if (!user) {
+      toast.error("Please login");
+      router.push("/login");
+    }
+    setUser(user);
+  };
+
+  const handleGetOrders = async () => {
+    try {
+      if (user.uid === undefined) return;
+      const response = await getOrdersByVendorId(user.uid);
+      setOrders(response.orders);
+    } catch (error) {
+      toast.error("error");
+    }
+  };
+
+  const handleChangeOrderStatus = async (orderId, currentStatus) => {
+    try {
+      setLoading(true);
+      let nextStatus = "pending";
+      if (user.uid === undefined) return;
+      if (currentStatus === "pending") {
+        nextStatus = "processing";
+      } else if (currentStatus === "processing") {
+        nextStatus = "delivering";
+      } else if (currentStatus === "delivering") {
+        nextStatus = "completed";
+      }
+      else if(currentStatus === "completed") {
+       return;
+      } 
+
+      const orderData = { status: nextStatus };
+      const response = await updateOrder(orderId, orderData);
+      setLoading(false);
+      if (response.hasOwnProperty("success") && response.success) {
+        toast.success("Order status changed");
+        handleGetOrders();
+      } else {
+        toast.error("Oops!!, error updating order status");
+      }
+    } catch (error) {
+      toast.error("error");
+    }
+  };
+
+  const variants = {
+    processing: "ghost",
+    pending: "ghost",
+    completed: "ghost",
+  };
+
+  const logOut = async () => {
+    await logOutUser();
+    router.push("/login");
+  };
+
+  useEffect(() => {
+    handleCheckLogin();
+  }, []);
+
+  useEffect(() => {
+    handleGetOrders();
+  }, [user]);
+
   return (
     <>
       <div className="flex h-screen">
@@ -74,6 +122,14 @@ const Orders = () => {
                 </a>
               </Link>
             </li>
+            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+              <a className="flex items-center">
+                <span className="w-6 h-6 mr-2">
+                  {/* Add your navigation icon here */}
+                </span>
+                Logout
+              </a>
+            </li>
             {/* Add more navigation links here */}
           </ul>
         </div>
@@ -81,7 +137,7 @@ const Orders = () => {
         {/* Right-hand side content */}
         <div className="flex flex-col flex-1">
           <TopNav />
-    
+
           <div className=" gap-4 text-black p-4">
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold mb-4">Orders</h1>
@@ -91,28 +147,66 @@ const Orders = () => {
                     <th className="py-2 px-4">Id</th>
                     <th className="py-2 px-4">Customer</th>
                     <th className="py-2 px-4">Total</th>
-                    <th className="py-2 px-4">Payment</th>
+                    <th className="py-2 px-4">Date</th>
+                    <th className="py-2 px-4">Items</th>
                     <th className="py-2 px-4">Status</th>
                     <th className="py-2 px-4">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b">
-                    <td className="py-2 px-4">dfmfk...</td>
-                    <td className="py-2 px-4">skvjfdv</td>
-                    <td className="py-2 px-4">$500</td>
-                    <td className="py-2 px-4">fjvjvj</td>
-                    <td className="py-2 px-4">
-                      <Chip variant="ghost" value="Processing" />
-                    </td>
-                    <td className="py-2 px-4">
-                      <button
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
-                      >
-                        Next Stage
-                      </button>
-                    </td>
-                  </tr>
+                  {orders.length > 0 &&
+                    orders.map((order, index) => {
+                      return (
+                        <tr className="border-b">
+                          <td className="py-2 px-4">{order.orderId}</td>
+                          <td className="py-2 px-4">{order.customerName}</td>
+                          <td className="py-2 px-4">{order.amountCharged}</td>
+                          <td className="py-2 px-4">{order.orderAt}</td>
+                          <td className="py-2 px-4">
+                            <table>
+                              <thead>
+                                <td>Product Name</td>
+                                <td>Qty</td>
+                                <td>Price</td>
+                              </thead>
+                              {order.cart.length > 0 &&
+                                order.cart.map((cart) => {
+                                  return (
+                                    <>
+                                      <tr>
+                                        <td>{cart.productName}</td>
+                                        <td>{cart.quantity}</td>
+                                        <td>N{cart.price}</td>
+                                      </tr>
+                                    </>
+                                  );
+                                })}
+                            </table>
+                          </td>
+                          <td className="py-2 px-4">
+                            <Chip
+                              variant={variants[order.status]}
+                              value={order.status}
+                            />
+                          </td>
+                          <td className="py-2 px-4">
+                            <button
+                              className="bg-blue-500 text-white px-3 py-1 rounded"
+                              onClick={() => {
+                                setOrderId(order.orderId);
+                                handleChangeOrderStatus(
+                                  order.orderId,
+                                  order.status
+                                );
+                              }}
+                              disabled={orderId === order.orderId && loading}
+                            >
+                              Next Stage
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

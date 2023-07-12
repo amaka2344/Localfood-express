@@ -9,7 +9,7 @@ import { getCartsByUserId, deleteCart } from "../services/cart";
 import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
-import { BiX } from 'react-icons/bi'
+import { BiX } from "react-icons/bi";
 
 const cart = () => {
   const router = useRouter();
@@ -67,11 +67,12 @@ const cart = () => {
         address,
         longitude,
         latitude,
-        comment: "Deliver to address "+address,
+        comment: "Deliver to address " + address,
         orderId: config.reference,
         distanceCharged: 30,
         deliveryAmount: 200,
         cart: cartItems,
+        customer: user,
         deliveryDate: new Date(),
         deliveryType: "home",
         transactionId: reference.reference,
@@ -87,9 +88,9 @@ const cart = () => {
       const response = await addOrder(orderData);
       if (response.hasOwnProperty("success") && response.success) {
         //delete cart items
-        //await deleteCart(user.uid);
+        await deleteCart(user.uid);
         toast.success("Order successful");
-        router.push("/orders/"+config.reference);
+        router.push("/orders/" + config.reference);
       } else {
         toast.error("Oops!!, Order failed, please try again");
       }
@@ -193,7 +194,9 @@ const cart = () => {
                   })}
               </tbody>
             </table>
-            <div className="w-full" style={{marginTop:"20px"}}>Delivering to: {address} </div>
+            <div className="w-full" style={{ marginTop: "20px" }}>
+              Delivering to: {address}{" "}
+            </div>
           </div>
           <div className="md:w-1/3 mt-6 md:mt-0  text-black">
             <div className="w-full max-w-md bg-amber-100 p-8 flex flex-col justify-between">
