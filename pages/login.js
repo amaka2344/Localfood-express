@@ -42,7 +42,7 @@ const Login = () => {
       return toast.error("Please input Password");
     }
     if (formData.password.length <= 5) {
-      return toast.error("Password should have more than five character.");
+      return toast.error("Password should have more than five characters.");
     }
 
     setIsLoading(true);
@@ -60,31 +60,31 @@ const Login = () => {
           router.push("/userHomepage");
         }
       } else {
-        toast.error("login failed");
+        toast.error("Login failed");
       }
     } catch (error) {
       setIsLoading(false);
       console.log("Error:", error);
       toast.error("Login failed", error);
-      setIsLoading(false)
+      setIsLoading(false);
       if (error.message.includes("wrong-password")) {
         toast.error("User does not exist");
       } else {
-        toast.error("An error occured");
+        toast.error("An error occurred");
       }
     }
   };
 
   // If validation passes, proceed with form submission
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
-      <div className="text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%]">
+      <div className="flex-grow text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%]">
         <div className="items-center justify-center flex pb-10">
           <Image src={icon} alt="icon" width={100} height={70} />
         </div>
         <div>
-          <h1 className=" font-bold text-3xl text-black">
+          <h1 className="font-bold text-3xl text-black">
             Welcome to Local Food-Express
           </h1>
           <p className="pb-9 text-gray-400">
@@ -117,7 +117,7 @@ const Login = () => {
             ) : (
               <button
                 type="submit"
-                className=" bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
+                className="bg-[#A1C75C] w-1/3 h-12 text-lg text-center"
               >
                 Log In
               </button>
@@ -144,7 +144,7 @@ const Login = () => {
         />
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

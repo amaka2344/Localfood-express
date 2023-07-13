@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import NavBar from "../components/NavBar";
 import Footer from '../components/Footer'
-//import userouter
+//import use router
 import { useRouter } from 'next/router';
 //import toast
 import toast, { Toaster } from 'react-hot-toast';
@@ -77,9 +77,9 @@ const Register = () => {
 
   // If validation passes, proceed with form submission
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
-      <div className="text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%] text-black">
+      <div className="flex-grow text-center px-[4%] justify-center items-center md:px-[6%] pt-[10%] text-black">
         <div className="items-center justify-center flex pb-10">
           <Image src={icon} alt="icon" width={100} height={70} />
         </div>
@@ -133,7 +133,7 @@ const Register = () => {
 
             <p className="text-gray-600 text-sm">
               Already have an account?{" "}
-              <Link href="/login" className=" underline  text-base">
+              <Link href="/login" className="underline text-base">
                 <a>
                   Login
                 </a>

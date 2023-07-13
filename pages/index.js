@@ -1,5 +1,5 @@
+import {React, useState} from "react";
 import { BsGeo } from "react-icons/bs";
-import Link from "next/link";
 import soup from "../public/soup-removebg-preview.png";
 import Image from "next/image";
 import logo11 from "../public/logo11.png";
@@ -9,14 +9,15 @@ import RestaurantCard from "../components/restuarantCard";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { geocodeAddress } from "../services/misc";
+
 
 export default function Home() {
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  
 
   const handleFetchVendors = async () => {
     try {
@@ -60,7 +61,13 @@ export default function Home() {
                 setAddress(e.target.value);
               }}
             />
-            <button onClick={handleFetchVendors}>Go</button>
+              <button
+                type="submit"
+                onClick={handleFetchVendors}
+                className=" bg-[#A1C75C] w-20 h-10 text-lg text-center rounded"
+              >
+               Go
+              </button>
           </div>
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
@@ -130,6 +137,13 @@ export default function Home() {
       </div>
       <h1 className="text-black text-3xl pt-5">Restaurants you might like</h1>
       <RestaurantCard />
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
       <Footer />
     </div>
   );

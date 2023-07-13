@@ -9,7 +9,6 @@ import { getCartsByUserId, deleteCart } from "../services/cart";
 import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
-import { BiX } from "react-icons/bi";
 
 const cart = () => {
   const router = useRouter();
@@ -139,82 +138,81 @@ const cart = () => {
     handleCheckLogin();
   }, []);
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <MainPageNav />
-      <div className="p-6 md:p-10 lg:p-16">
+      <div className="p-6 md:p-10 lg:p-16 flex-grow">
         <div className="flex flex-col md:flex-row lg:pt-[6%] md:pt-[10%] sm:pt-[12%]">
-          <div className="md:w-2/3 ">
-            <table className="w-full border-collapse text-left  text-black">
+          <div className="md:w-2/3">
+            <table className="w-full border-collapse text-left text-black">
               <thead>
                 <tr>
                   <th>Product</th>
-                  <th>Name</th>
+                  <th>Product Name</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
                 {cartItems.length > 0 &&
                   cartItems.map((item, index) => {
                     return (
-                      <>
-                        <tr style={{ paddingBottom: "10px" }} key={index}>
-                          <td>
-                            <div className="relative">
-                              <Image
-                                src={item.photo}
-                                alt={item.productName}
-                                width={50}
-                                height={50}
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <span className="font-normal text-xl">
-                              {item.productName}
-                            </span>
-                          </td>
-                          <td>
-                            <span>{item.price}</span>
-                          </td>
-                          <td>
-                            <span>
-                              {item.quantity} {item.unit}
-                            </span>
-                          </td>
-                          <td>
-                            <span className="font-medium text-2xl">
-                              NGN {item.price}
-                            </span>
-                          </td>
-                        </tr>
-                      </>
+                      <tr style={{ paddingBottom: "10px" }} key={index}>
+                        <td>
+                          <div className="relative">
+                            <Image
+                              src={item.photo}
+                              alt={item.productName}
+                              width={50}
+                              height={50}
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <span className="font-normal text-xl">
+                            {item.productName}
+                          </span>
+                        </td>
+                        <td>
+                          <span>{item.price}</span>
+                        </td>
+                        <td>
+                          <span>
+                            {item.quantity} {item.unit}
+                          </span>
+                        </td>
+                      </tr>
                     );
                   })}
               </tbody>
             </table>
-            <div className="w-full" style={{ marginTop: "20px" }}>
-              Delivering to: {address}{" "}
+            <div className="w-full text-black" style={{ marginTop: "20px" }}>
+              <h3>Delivering to: {address}</h3>
             </div>
           </div>
-          <div className="md:w-1/3 mt-6 md:mt-0  text-black">
+          <div className="md:w-1/3 mt-6 md:mt-0 text-black">
             <div className="w-full max-w-md bg-amber-100 p-8 flex flex-col justify-between">
               <h2 className="text-2xl font-bold mb-4">CART TOTAL</h2>
               <div className="mb-2">
-                <b className="mr-[10px]">Subtotal:</b> NGN {total}.00
+                <b className="mr-[10px]">Subtotal:</b> &#x20A6;{total}.00
               </div>
               <div className="mb-2">
-                <b className="mr-[10px]">Discount:</b> $0.00
+                <b className="mr-[10px]">Discount:</b> &#x20A6;0.00
               </div>
               <div className="mb-2">
-                <b className="mr-[10px]">Total:</b> NGN {total}.00
+                <b className="mr-[10px]">Total:</b> &#x20A6;{total}.00
               </div>
               <PayButton />
             </div>
           </div>
         </div>
       </div>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={true}
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
       <Footer />
     </div>
   );

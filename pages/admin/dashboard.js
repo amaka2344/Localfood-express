@@ -168,7 +168,7 @@ const Dashboard = () => {
                 </a>
               </Link>
             </li>
-            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+            <li className="py-2 px-4 hover:bg-gray-300 cursor-pointer" onClick={logOut}>
               <a className="flex items-center">
                 <span className="w-6 h-6 mr-2">
                   {/* Add your navigation icon here */}
