@@ -13,6 +13,7 @@ import { registerVendor } from "../../services/user";
 const RestaurantDetails = () => {
   const router = useRouter();
   const { data } = router.query;
+  data.trim()
   const jsonData = JSON.parse(decodeURIComponent(data));
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
