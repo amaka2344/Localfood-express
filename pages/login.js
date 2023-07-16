@@ -130,7 +130,9 @@ const Login = () => {
                 className="underline text-base
             "
               >
-                Register
+                <a className="underline text-base">
+                  Register
+                </a>
               </Link>
             </p>
           </div>
