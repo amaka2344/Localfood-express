@@ -12,8 +12,8 @@ import { registerVendor } from "../../services/user";
 
 const RestaurantDetails = () => {
   const router = useRouter();
-  const { data } = router.query;
-  const jsonData = JSON.parse(decodeURIComponent(data));
+  const jsonData = localStorage.getItem('regState')!==null? JSON.parse(localStorage.getItem('regState')): null;
+  
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
     email: jsonData?.email,
@@ -74,6 +74,7 @@ const RestaurantDetails = () => {
         });
         // navigate user to login page
         toast.success("Registration Successful, redirecting to login");
+        localStorage.removeItem('regState')
         setTimeout(() => {
           router.push("/login");
         }, 1000); // Delay of 2 seconds (adjust as needed)
