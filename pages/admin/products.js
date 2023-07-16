@@ -321,7 +321,7 @@ const Products = () => {
                     <label className="flex items-center">
                       <input
                         name="published"
-                        checked={productList.published}
+                        defaultChecked={product.published}
                         type="checkbox"
                         className="mr-2"
                       />
