@@ -9,6 +9,7 @@ import {
   where,
   addDoc,
   doc,
+  updateDoc,
   getDoc,
   collection,
 } from "firebase/firestore";
@@ -106,6 +107,7 @@ const login = async (userDetails) => {
         userName: userDoc.data().userName,
         email: userDoc.data().email,
         uid: user.uid,
+        address: userDoc.data().address,
         userType: userDoc.data().userType,
         //add any other things like token (later)
       };
@@ -179,7 +181,7 @@ const searchVendors = async (searchTerm) => {
 
     const options = {
       keys: ["userName", "address"],
-      threshold: 0.3 // Specify the keys to search in your restaurant objects
+      threshold: 0.3, // Specify the keys to search in your restaurant objects
     };
     const fuse = new Fuse(users, options);
     const results = fuse.search(searchTerm);
@@ -212,6 +214,84 @@ const logOutUser = async () => {
   }
 };
 
+const updateUser = async (userId, updatedData) => {
+  try {
+    if (updatedData.hasOwnProperty("address")) {
+      const address = await geocodeAddress(updatedData.address);
+      updatedData["longitude"] = address?.features[0]?.geometry?.coordinates[0];
+      updatedData["latitude"] = address?.features[0]?.geometry?.coordinates[1];
+    }
+    let querySnapshot = await getDocs(
+      query(collection(db, "users"), where("uid", "==", userId))
+    );
+    querySnapshot.forEach(async (doc) => {
+      const userRef = doc.ref;
+      await updateDoc(userRef, updatedData);
+    });
+
+    querySnapshot = await getDocs(
+      query(collection(db, "users"), where("uid", "==", userId))
+    );
+
+    let userData;
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      userData = {
+        userName: userDoc.data().userName,
+        email: userDoc.data().email,
+        uid: userDoc.data().uid,
+        address: userDoc.data().address,
+        userType: userDoc.data().userType,
+        //add any other things like token (later)
+      };
+    }
+    return { success: true, message: "User updated successfully", userData };
+  } catch (error) {
+    throw new Error("Error updating user: " + error);
+  }
+};
+
+const updateBusiness = async (userId, updatedData) => {
+  try {
+    if (updatedData.hasOwnProperty("address")) {
+      const address = await geocodeAddress(updatedData.address);
+      updatedData["longitude"] = address?.features[0]?.geometry?.coordinates[0];
+      updatedData["latitude"] = address?.features[0]?.geometry?.coordinates[1];
+    }
+    let querySnapshot = await getDocs(
+      query(collection(db, "users"), where("uid", "==", userId))
+    );
+    querySnapshot.forEach(async (doc) => {
+      const userRef = doc.ref;
+      await updateDoc(userRef, updatedData);
+    });
+
+    querySnapshot = await getDocs(
+      query(collection(db, "users"), where("uid", "==", userId))
+    );
+
+    let userData;
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      userData = {
+        userName: userDoc.data().userName,
+        email: userDoc.data().email,
+        uid: userDoc.data().uid,
+        address: userDoc.data().address,
+        userType: userDoc.data().userType,
+        //add any other things like token (later)
+      };
+    }
+    return {
+      success: true,
+      message: "Business updated successfully",
+      userData,
+    };
+  } catch (error) {
+    throw new Error("Error updating user: " + error);
+  }
+};
+
 export {
   register,
   login,
@@ -222,4 +302,6 @@ export {
   searchVendors,
   getLoggedInUser,
   logOutUser,
+  updateUser,
+  updateBusiness,
 };

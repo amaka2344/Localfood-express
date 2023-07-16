@@ -41,8 +41,8 @@ const AdminLogin = () => {
     }
     try {
       setIsLoading(true);
-      const encodedData = encodeURIComponent(JSON.stringify(formData));
-      router.push(`/admin/restaurantDetails?data=${encodedData}`);
+      localStorage.setItem('regState', JSON.stringify(formData));
+      router.push('/admin/restaurantDetails');
     } catch (error) {
       toast.error(error.message);
     }
