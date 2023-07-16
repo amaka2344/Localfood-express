@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLoggedInUser, updateBusiness } from "../services/user";
 import toast, { Toaster } from "react-hot-toast";
 
 const TopNav = () => {
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [restaurantName, setRestaurantName] = useState("");
@@ -65,7 +67,7 @@ const TopNav = () => {
 
   useEffect(() => {
     handleCheckLogin();
-  }, [editing]);
+  }, []);
 
   return (
     <>

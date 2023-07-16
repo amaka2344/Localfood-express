@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TopNav from "../../components/adminTopNav";
 import Link from "next/link";
-import { Chip } from "@material-tailwind/react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { getLoggedInUser, logOutUser } from "../../services/user";
 import { addUnit, getAllUnits } from "../../services/units";
 import {
@@ -82,6 +82,7 @@ const Products = () => {
         toast.success(response.message);
         handlegetProductsByVendor();
         handleCloseDeleteModal();
+      setLoading(false)
       } else {
         toast.error("Oops!!, failed to delete product");
       }
@@ -215,7 +216,7 @@ const Products = () => {
                 </a>
               </Link>
             </li>
-            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+            <li className="py-2 px-4 hover:bg-gray-300 cursor-pointer" onClick={logOut}>
               <a className="flex items-center">
                 <span className="w-6 h-6 mr-2">
                   {/* Add your navigation icon here */}
@@ -377,14 +378,19 @@ const Products = () => {
                 <p>Are you sure you want to delete this product?</p>
               </div>
               <div className="mb-4 flex">
+                {loading ?(
+              <ClipLoader color="black" size={20} />
+              ):(
                 <button
-                  type="submit"
-                  disabled={loading}
-                  onClick={handleDelete}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Yes, Proceed
-                </button>
+                type="submit"
+                disabled={loading}
+                onClick={handleDelete}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Yes, Proceed
+              </button>
+              )}
+              
               </div>
               <div className="mb-4" onClick={handleCloseDeleteModal}></div>
             </div>

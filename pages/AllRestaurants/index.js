@@ -17,10 +17,6 @@ const AllRestaurants = () => {
   };
 
   const handleSearchSubmit = async () => {
-    // Handle search submission logic
-    // Make API request with the search query
-    // Update the restaurant listing based on the search results received
-    // you can set search spinner state here
     const response = await searchVendors(searchQuery);
     setRestaurants(response.restaurants);
   };
@@ -49,7 +45,7 @@ const AllRestaurants = () => {
   }, []);
 
   return (
-    <>
+     <div className="min-h-screen flex flex-col">
       <MainPageNav />
       <div className="pt-[8%] items-center py-1  px-[4%] md:px-[6%] ">
         <div className="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
@@ -80,14 +76,14 @@ const AllRestaurants = () => {
             </button>
           </div>
         </div>
-
-        {restaurants.length > 0 && <RestaurantList restaurants={restaurants} />}
+        {restaurants.length > 0 &&       
+        <RestaurantList restaurants={restaurants} />}
         {restaurants.length === 0 && (
           <div className="w-full">No restaurant found </div>
         )}
       </div>
-      <Footer />
-    </>
+      <Footer/>
+      </div>
   );
 };
 

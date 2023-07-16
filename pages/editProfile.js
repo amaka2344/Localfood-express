@@ -46,7 +46,7 @@ const EditProfile = () => {
 
   const handleCheckLogin = async () => {
     const user = await getLoggedInUser();
-    if (!user || user.userType !== "vendor") {
+    if (!user || user.userType !== "customer") {
       toast.error("Please login as vendor");
       router.push("/login");
     }
@@ -58,7 +58,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     handleCheckLogin();
-  }, [loading]);
+  }, []);
 
   return (
     <>
@@ -84,7 +84,7 @@ const EditProfile = () => {
                 Address:
               </label>
               <input
-                type="address"
+                type="tex"
                 name="address"
                 placeholder="Enter New Address"
                 defaultvalue={updatedUserDetails.address}
