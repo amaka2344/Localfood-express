@@ -12,8 +12,10 @@ import { registerVendor } from "../../services/user";
 
 const RestaurantDetails = () => {
   const router = useRouter();
-  const jsonData = localStorage.getItem('regState')!==null? JSON.parse(localStorage.getItem('regState')): null;
-  
+  let jsonData = null;
+  if (typeof localStorage !== 'undefined') {
+    jsonData = localStorage.getItem('regState') !== null ? JSON.parse(localStorage.getItem('regState')) : null;
+  }
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
     email: jsonData?.email,

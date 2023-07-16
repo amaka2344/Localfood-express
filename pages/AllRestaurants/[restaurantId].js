@@ -82,7 +82,7 @@ const RestaurantId = () => {
           className="w-full"
           height={400}
           src={spagetti}
-          alt="spaghetti banner"
+           alt="spaghetti banner"
         />
         <figure className="relative">
           <figcaption className="absolute bottom-8 left-2/4 transform -translate-x-2/4 sm:flex sm:justify-between bg-white py-4 px-6 sm:w-[calc(100%-4rem)] sm:saturate-200 sm:backdrop-blur-sm">

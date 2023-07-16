@@ -75,13 +75,7 @@ export default function Home() {
                 setAddress(e.target.value);
               }}
             />
-              <button
-                type="submit"
-                onClick={handleFetchVendors}
-                className=" bg-[#A1C75C] w-20 h-10 text-lg text-center rounded"
-              >
-               Go
-              </button>
+            <button className="text-black bg-[#A1C75C] w-12 rounded h-10" onClick={handleFetchVendors}>Go</button>
           </div>
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
@@ -158,7 +152,7 @@ export default function Home() {
           position="bottom-center"
           reverseOrder={true}
           toastOptions={{
-            duration: 5000,
+          duration: 5000,
           }}
         />
       <Footer />

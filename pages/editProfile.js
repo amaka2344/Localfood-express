@@ -47,7 +47,7 @@ const EditProfile = () => {
   const handleCheckLogin = async () => {
     const user = await getLoggedInUser();
     if (!user || user.userType !== "customer") {
-      toast.error("Please login as vendor");
+      toast.error("Please login as customer");
       router.push("/login");
     }
     setUser(user);
@@ -87,7 +87,7 @@ const EditProfile = () => {
                 type="tex"
                 name="address"
                 placeholder="Enter New Address"
-                defaultvalue={updatedUserDetails.address}
+                defaultValue={updatedUserDetails.address}
                 onChange={handleInputChange}
                 className="border border-gray-300 px-4 py-2 rounded-lg w-full"
               />
@@ -101,6 +101,13 @@ const EditProfile = () => {
             </button>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

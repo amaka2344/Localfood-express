@@ -7,8 +7,6 @@ const TopNav = () => {
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [restaurantName, setRestaurantName] = useState("");
-  const [restaurantAddress, setRestaurantAddress] = useState("");
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [newAddress, setNewAddress] = useState("");
@@ -20,15 +18,11 @@ const TopNav = () => {
 
   const handleEditClick = () => {
     setEditing(true);
-    setNewName(restaurantName);
-    setNewAddress(restaurantAddress);
   };
 
   const handleSaveClick = async () => {
     try {
       setLoading(true);
-      setRestaurantName(newName);
-      setRestaurantAddress(newAddress);
       // Close the drawer after saving
       const businessData = {
         userName: newName,
@@ -42,6 +36,7 @@ const TopNav = () => {
         setIsDrawerOpen(false);
         setEditing(false);
         localStorage.setItem("loggedInUser", JSON.stringify(response.userData));
+        window.location.reload();
       } else {
         toast.error("Oops!!, bussiness update failed");
       }
@@ -49,8 +44,8 @@ const TopNav = () => {
       setIsDrawerOpen(false);
       setEditing(false);
       setLoading(false);
-      toast.error(error.message);
       alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -139,15 +134,16 @@ const TopNav = () => {
                   onClick={handleSaveClick}
                   disabled={loading}
                 >
-                  {loading ? "Wait.." : "Edit"}
+                  {loading ? "Wait.." : "Save"}
                 </button>
               )}
-              <span
-                className="text-xl font-bold mb-2 ml-2"
+              <button
+                className="px-4 ml-6 py-2 bg-red-500 text-white rounded-md mt-4"
                 onClick={() => setIsDrawerOpen(false)}
+                disabled={loading}
               >
                 Close
-              </span>
+              </button>
             </div>
           </div>
         )}

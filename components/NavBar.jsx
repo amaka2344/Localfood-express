@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Logo from "./logo";
 import Image from "next/image";
 import logoPic from "../public/icon.png";
