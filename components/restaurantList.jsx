@@ -5,16 +5,15 @@ import plantain from "../public/plantain.jpg";
 
 const RestaurantList = (props) => {
   const { restaurants } = props;
-  // Sample restaurant data
 
   return (
-    <div className="flex w-full pt-10">
+    <div className="flex flex-wrap -mx-4">
       {restaurants.length > 0 &&
         restaurants.map((restaurant, index) => {
           return (
             <div
               key={index}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4"
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-4"
             >
               <Link
                 href={`/AllRestaurants/${restaurant.uid}`}
@@ -49,7 +48,9 @@ const RestaurantList = (props) => {
                           <path d="M12 2L14.48 8.24L21 9.34L16.5 13.54L17.5 20L12 17.77L6.5 20L7.5 13.54L3 9.34L9.52 8.24L12 2Z" />
                         </svg>
                       </div>
-                      <div className="text-gray-700">{restaurant?.averageRating}</div>
+                      <div className="text-gray-700">
+                        {restaurant?.averageRating}
+                      </div>
                     </div>
                     <div className="flex flex-wrap">
                       <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">

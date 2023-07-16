@@ -13,8 +13,8 @@ import { registerVendor } from "../../services/user";
 const RestaurantDetails = () => {
   const router = useRouter();
   const { data } = router.query;
-  data.trim()
-  const jsonData = JSON.parse(decodeURIComponent(data));
+  // const decodeData = decodeURIComponent(data)
+  const jsonData = JSON.parse(data);
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
     email: jsonData?.email,
@@ -34,7 +34,6 @@ const RestaurantDetails = () => {
       router.push("/admin");
     }
   }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setVendorDetails((prevState) => ({
@@ -47,7 +46,7 @@ const RestaurantDetails = () => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      const base64String = reader.result;      
+      const base64String = reader.result;
       // Update the state with the base64 string
       setVendorDetails((prevState) => ({
         ...prevState,
@@ -187,12 +186,12 @@ const RestaurantDetails = () => {
         </div>
       </form>
       <Toaster
-                position="bottom-center"
-                reverseOrder={true}
-                toastOptions={{
-                    duration: 5000,
-                }}
-            />
+        position="bottom-center"
+        reverseOrder={true}
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
     </div>
   );
 };
