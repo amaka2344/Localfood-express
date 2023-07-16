@@ -224,6 +224,8 @@ const updateUser = async (userId, updatedData) => {
     let querySnapshot = await getDocs(
       query(collection(db, "users"), where("uid", "==", userId))
     );
+    alert(JSON.stringify(updatedData))
+    return
     querySnapshot.forEach(async (doc) => {
       const userRef = doc.ref;
       await updateDoc(userRef, updatedData);

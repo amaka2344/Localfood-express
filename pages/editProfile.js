@@ -25,7 +25,7 @@ const EditProfile = () => {
     // Perform save profile logic here
     try {
       setLoading(true);
-      const response = await updateUser(user.uid, updatedUserDetails);
+      const response = await updateBusiness(user.uid, updatedUserDetails);
       setLoading(false);
       if (response.hasOwnProperty("success") && response.success) {
         alert(response.message);
@@ -46,8 +46,8 @@ const EditProfile = () => {
 
   const handleCheckLogin = async () => {
     const user = await getLoggedInUser();
-    if (!user || user.userType !== "vendor") {
-      toast.error("Please login as vendor");
+    if (!user || user.userType !== "customer") {
+      toast.error("Please login as customer");
       router.push("/login");
     }
     setUser(user);
@@ -101,6 +101,13 @@ const EditProfile = () => {
             </button>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

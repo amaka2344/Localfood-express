@@ -75,7 +75,7 @@ export default function Home() {
                 setAddress(e.target.value);
               }}
             />
-            <button onClick={handleFetchVendors}>Go</button>
+            <button className="text-black bg-[#A1C75C] w-12 rounded h-10" onClick={handleFetchVendors}>Go</button>
           </div>
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
@@ -148,6 +148,13 @@ export default function Home() {
       {restaurants.length === 0 && (
         <div className="w-full">No restaurant found </div>
       )}
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+          duration: 5000,
+          }}
+        />
       <Footer />
     </div>
   );

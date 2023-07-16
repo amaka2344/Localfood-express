@@ -34,7 +34,6 @@ const TopNav = () => {
       };
       const response = await updateBusiness(user.uid, businessData);
       if (response.hasOwnProperty("success") && response.success) {
-        alert(response.message);
         toast.success(response.message);
         setLoading(false);
         setIsDrawerOpen(false);
@@ -48,7 +47,6 @@ const TopNav = () => {
       setEditing(false);
       setLoading(false);
       toast.error(error.message);
-      alert(error.message);
     }
   };
 
@@ -137,15 +135,16 @@ const TopNav = () => {
                   onClick={handleSaveClick}
                   disabled={loading}
                 >
-                  {loading ? "Wait.." : "Edit"}
+                  {loading ? "Wait.." : "Save"}
                 </button>
               )}
-              <span
-                className="text-xl font-bold mb-2 ml-2"
+              <button
+                className="px-4 ml-6 py-2 bg-red-500 text-white rounded-md mt-4"
                 onClick={() => setIsDrawerOpen(false)}
+                disabled={loading}
               >
                 Close
-              </span>
+              </button>
             </div>
           </div>
         )}
