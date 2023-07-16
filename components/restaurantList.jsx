@@ -1,13 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import plantain from "../public/plantain.jpg";
 
 const RestaurantList = (props) => {
   const { restaurants } = props;
 
   return (
-    <div className="flex flex-wrap -mx-4">
+    <div className="flex flex-wrap -mx-4 mt-20">
       {restaurants.length > 0 &&
         restaurants.map((restaurant, index) => {
           return (

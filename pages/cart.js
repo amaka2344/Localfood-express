@@ -10,7 +10,7 @@ import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
 
-const cart = () => {
+const Cart = () => {
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState({});
@@ -21,7 +21,7 @@ const cart = () => {
   const [config, setConfig] = useState({
     reference: new Date().getTime().toString(),
     email: "",
-    amount: 0, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    amount: 0,
     publicKey: "pk_test_f3b87e94dc24907be0e40ec14350aebb35dc4e57",
   });
 
@@ -47,15 +47,14 @@ const cart = () => {
         setConfig(config);
         setTotal(totalPrice);
       } else {
-        toast.error("An error occured, we could not fetch cart");
+        toast.error("An error occurred, we could not fetch cart");
       }
     } catch (error) {
-      toast.error("An error occured, we could not fetch cart");
+      toast.error("An error occurred, we could not fetch cart");
     }
   };
 
   const onPaymentSuccess = async (reference) => {
-    // Implementation for whatever you want to do with reference and after success call.
     console.log(reference);
     try {
       const orderData = {
@@ -86,7 +85,6 @@ const cart = () => {
       };
       const response = await addOrder(orderData);
       if (response.hasOwnProperty("success") && response.success) {
-        //delete cart items
         await deleteCart(user.uid);
         toast.success("Order successful");
         router.push("/orders/" + config.reference);
@@ -94,13 +92,11 @@ const cart = () => {
         toast.error("Oops!!, Order failed, please try again");
       }
     } catch (error) {
-      toast.error("error");
+      toast.error("An error occurred");
     }
   };
 
-  // you can call this function anything
   const onPaymentClose = () => {
-    // implementation for  whatever you want to do when the Paystack dialog closed.
     toast.error("Payment modal closed");
   };
 
@@ -129,7 +125,7 @@ const cart = () => {
       response = await getStorageParam("latitude");
       setLatitude(response);
     } catch (error) {
-      toast.error("An error occured");
+      toast.error("An error occurred");
     }
   };
 
@@ -137,11 +133,12 @@ const cart = () => {
     getAddress();
     handleCheckLogin();
   }, []);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" >
       <MainPageNav />
-      <div className="p-6 md:p-10 lg:p-16 flex-grow">
-        <div className="flex flex-col md:flex-row lg:pt-[6%] md:pt-[10%] sm:pt-[12%]">
+      <div className="p-6 md:p-10 lg:p-16 flex-grow mt-24">
+        <div className="flex flex-col md:flex-row">
           <div className="md:w-2/3">
             <table className="w-full border-collapse text-left text-black">
               <thead>
@@ -156,7 +153,7 @@ const cart = () => {
                 {cartItems.length > 0 &&
                   cartItems.map((item, index) => {
                     return (
-                      <tr style={{ paddingBottom: "10px" }} key={index}>
+                      <tr key={index} style={{ paddingBottom: "10px" }}>
                         <td>
                           <div className="relative">
                             <Image
@@ -218,4 +215,4 @@ const cart = () => {
   );
 };
 
-export default cart;
+export default Cart;
