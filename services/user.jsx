@@ -35,6 +35,9 @@ const register = async (userDetails) => {
         userName: userDetails.userName,
         userType: "customer",
         uid: user.uid,
+        address: "",
+        longitude: 0,
+        latitude: 0,
       });
       return { success: true, message: "Registration successful" };
     }
@@ -218,33 +221,38 @@ const updateUser = async (userId, updatedData) => {
   try {
     if (updatedData.hasOwnProperty("address")) {
       const address = await geocodeAddress(updatedData.address);
-      updatedData["longitude"] = address?.features[0]?.geometry?.coordinates[0];
-      updatedData["latitude"] = address?.features[0]?.geometry?.coordinates[1];
+      updatedData.longitude = address?.features[0]?.geometry?.coordinates[0];
+      updatedData.latitude = address?.features[0]?.geometry?.coordinates[1];
     }
-    let querySnapshot = await getDocs(
-      query(collection(db, "users"), where("uid", "==", userId))
+    const usersRef = collection(db, "users");
+    const querySnapshot = await getDocs(
+      query(usersRef, where("uid", "==", userId))
     );
-    querySnapshot.forEach(async (doc) => {
+
+    const promises = querySnapshot.docs.map(async (doc) => {
       const userRef = doc.ref;
       await updateDoc(userRef, updatedData);
     });
 
-    querySnapshot = await getDocs(
-      query(collection(db, "users"), where("uid", "==", userId))
+    await Promise.all(promises);
+
+    const updatedUserSnapshot = await getDocs(
+      query(usersRef, where("uid", "==", userId))
     );
 
     let userData;
-    if (!querySnapshot.empty) {
-      const userDoc = querySnapshot.docs[0];
+    if (!updatedUserSnapshot.empty) {
+      const updatedUserDoc = updatedUserSnapshot.docs[0];
       userData = {
-        userName: userDoc.data().userName,
-        email: userDoc.data().email,
-        uid: userDoc.data().uid,
-        address: userDoc.data().address,
-        userType: userDoc.data().userType,
-        //add any other things like token (later)
+        userName: updatedUserDoc.data().userName,
+        email: updatedUserDoc.data().email,
+        uid: updatedUserDoc.data().uid,
+        address: updatedUserDoc.data().address,
+        userType: updatedUserDoc.data().userType,
+        // add any other fields you need
       };
     }
+
     return { success: true, message: "User updated successfully", userData };
   } catch (error) {
     throw new Error("Error updating user: " + error);
@@ -255,31 +263,35 @@ const updateBusiness = async (userId, updatedData) => {
   try {
     if (updatedData.hasOwnProperty("address")) {
       const address = await geocodeAddress(updatedData.address);
-      updatedData["longitude"] = address?.features[0]?.geometry?.coordinates[0];
-      updatedData["latitude"] = address?.features[0]?.geometry?.coordinates[1];
+      updatedData.longitude = address?.features[0]?.geometry?.coordinates[0];
+      updatedData.latitude = address?.features[0]?.geometry?.coordinates[1];
     }
-    let querySnapshot = await getDocs(
-      query(collection(db, "users"), where("uid", "==", userId))
+    const usersRef = collection(db, "users");
+    const querySnapshot = await getDocs(
+      query(usersRef, where("uid", "==", userId))
     );
-    querySnapshot.forEach(async (doc) => {
+
+    const promises = querySnapshot.docs.map(async (doc) => {
       const userRef = doc.ref;
       await updateDoc(userRef, updatedData);
     });
 
-    querySnapshot = await getDocs(
-      query(collection(db, "users"), where("uid", "==", userId))
+    await Promise.all(promises);
+
+    const updatedUserSnapshot = await getDocs(
+      query(usersRef, where("uid", "==", userId))
     );
 
     let userData;
-    if (!querySnapshot.empty) {
-      const userDoc = querySnapshot.docs[0];
+    if (!updatedUserSnapshot.empty) {
+      const updatedUserDoc = updatedUserSnapshot.docs[0];
       userData = {
-        userName: userDoc.data().userName,
-        email: userDoc.data().email,
-        uid: userDoc.data().uid,
-        address: userDoc.data().address,
-        userType: userDoc.data().userType,
-        //add any other things like token (later)
+        userName: updatedUserDoc.data().userName,
+        email: updatedUserDoc.data().email,
+        uid: updatedUserDoc.data().uid,
+        address: updatedUserDoc.data().address,
+        userType: updatedUserDoc.data().userType,
+        // add any other fields you need
       };
     }
     return {

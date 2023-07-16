@@ -12,8 +12,10 @@ import { registerVendor } from "../../services/user";
 
 const RestaurantDetails = () => {
   const router = useRouter();
-  const jsonData = localStorage.getItem('regState')!==null? JSON.parse(localStorage.getItem('regState')): null;
-  
+  let jsonData = null;
+  if (typeof localStorage !== 'undefined') {
+    jsonData = localStorage.getItem('regState') !== null ? JSON.parse(localStorage.getItem('regState')) : null;
+  }
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
     email: jsonData?.email,
@@ -33,7 +35,6 @@ const RestaurantDetails = () => {
       router.push("/admin");
     }
   }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setVendorDetails((prevState) => ({
@@ -46,7 +47,7 @@ const RestaurantDetails = () => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      const base64String = reader.result;      
+      const base64String = reader.result;
       // Update the state with the base64 string
       setVendorDetails((prevState) => ({
         ...prevState,
@@ -72,12 +73,13 @@ const RestaurantDetails = () => {
           logo: null,
           password: "",
         });
+        setIsLoading(false)
         // navigate user to login page
         toast.success("Registration Successful, redirecting to login");
         localStorage.removeItem('regState')
         setTimeout(() => {
           router.push("/login");
-        }, 1000); // Delay of 2 seconds (adjust as needed)
+        }, 1000);
       }
     } catch (error) {
       toast.error("error");
@@ -186,12 +188,12 @@ const RestaurantDetails = () => {
         </div>
       </form>
       <Toaster
-                position="bottom-center"
-                reverseOrder={true}
-                toastOptions={{
-                    duration: 5000,
-                }}
-            />
+        position="bottom-center"
+        reverseOrder={true}
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
     </div>
   );
 };

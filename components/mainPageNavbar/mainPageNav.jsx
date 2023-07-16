@@ -58,7 +58,7 @@ const MainPageNavBar = () => {
 
   return (
     <nav
-      className={`flex flex-col sm:flex-row py-3 max-w-screen mb-3 fixed left-0 right-0 px-[4%] md:px-[10%] ${
+      className={`flex flex-col sm:flex-row py-3 max-w-screen mb-3 bg-white fixed left-0 right-0 px-[4%] md:px-[10%] ${
         colorChange ? "shadow-sm  drop-shadow-sm" : ""
       } z-10 transition delay-75 ease-in-out`}
     >

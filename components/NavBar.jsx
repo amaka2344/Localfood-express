@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import Logo from "./logo";
 import Image from "next/image";
 import logoPic from "../public/icon.png";
@@ -6,11 +7,12 @@ import Link from "next/link";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import MenuDropdown from "./MenuDropdown";
-import { getVendor, getLoggedInUser } from "../services/user";
+import { getVendor, getLoggedInUser, logOutUser } from "../services/user";
 import { getCartsByUserId } from "../services/cart";
 import { BsPerson } from "react-icons/bs";
 
 const NavBar = () => {
+  const router = useRouter();
   const [carts, setCarts] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colorChange, setColorChange] = useState(false);

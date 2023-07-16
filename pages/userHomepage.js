@@ -59,7 +59,11 @@ const UserHomepage = () => {
               }}
               className="text-black ml-2 w-full px-4 py-2 border border-gray-100 rounded-md focus:outline-none focus:ring focus:ring-amber-100"
             />
-            <button className="text-black" onClick={handleFetchVendors}>
+            <button
+              type="submit"
+              onClick={handleFetchVendors}
+              className=" bg-[#A1C75C] w-20 h-10 text-lg text-center rounded"
+            >
               Go
             </button>
           </div>
@@ -77,8 +81,8 @@ const UserHomepage = () => {
       </div>
       <div className="bg-amber-50 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start justify-center">
-            <div className="flex flex-col items-center justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div className="flex flex-col items-center">
               <Image
                 src={logo11}
                 alt="Logo"
@@ -91,8 +95,7 @@ const UserHomepage = () => {
                   Browse, Choose, and Order
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Explore our curated selection of local restaurants and their
-                  enticing menus.
+                  Explore our curated selection of local restaurants and their enticing menus.
                 </p>
               </div>
             </div>
@@ -109,8 +112,7 @@ const UserHomepage = () => {
                   Secure and Seamless Transactions
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Make payments hassle-free using your preferred method, whether
-                  it's credit card, digital wallet, or cash on delivery.
+                  Make payments hassle-free using your preferred method, whether it's credit card, digital wallet, or cash on delivery.
                 </p>
               </div>
             </div>
@@ -127,15 +129,14 @@ const UserHomepage = () => {
                   Swift Delivery to Your Doorstep
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Once your order is placed, sit back and relax. Our trusted
-                  delivery partners will swiftly pick up your food from the
-                  restaurant and ensure it reaches your doorstep with care.
+                  Once your order is placed, sit back and relax. Our trusted delivery partners will swiftly pick up your food from the restaurant and ensure it reaches your doorstep with care.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <h1 className="text-black text-3xl pt-5">Restaurants you might like</h1>
       <RestaurantCard />
       <Footer />
