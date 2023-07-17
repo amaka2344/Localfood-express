@@ -110,9 +110,8 @@ const Cart = () => {
       const response = await deleteSingleCart(itemId);
       if(response.success){
        toast.success("Item removed from cart");
-       window.location.reload();
+       //window.location.reload();
       }
-      
     } catch (error) {
       toast.error(error.message);
     }
