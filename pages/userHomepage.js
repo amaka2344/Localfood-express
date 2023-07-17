@@ -28,7 +28,6 @@ const UserHomepage = () => {
       localStorage.setItem("address", address);
       router.push("/AllRestaurants");
     } catch (error) {
-      alert(JSON.stringify(error));
       toast.error("We could not proceed with request");
     }
   };

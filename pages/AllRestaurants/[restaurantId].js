@@ -39,6 +39,7 @@ const RestaurantId = () => {
   const handleAddCart = async (product) => {
     try {
       const cartData = {
+        cid: new Date().getTime().toString(),
         productId: product.id,
         quantity: 1,
         price: product.price,
@@ -47,10 +48,12 @@ const RestaurantId = () => {
         vendor: product.userId,
         photo: product.photo,
         productName: product.productName,
+        deleted: false
       };
       const response = await addCart(cartData);
       if (response.hasOwnProperty("success") && response.success) {
         toast.success("Product added to cart");
+        window.location.reload();
       } else {
         toast.error("Oops!!, failed to add product to cart");
       }

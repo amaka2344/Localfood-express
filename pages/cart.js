@@ -6,7 +6,7 @@ import MainPageNav from "../components/mainPageNavbar/mainPageNav";
 import toast, { Toaster } from "react-hot-toast";
 import { usePaystackPayment } from "react-paystack";
 import { getLoggedInUser } from "../services/user";
-import { getCartsByUserId, deleteCart } from "../services/cart";
+import { getCartsByUserId, deleteCart, deleteSingleCart } from "../services/cart";
 import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
@@ -48,10 +48,11 @@ const Cart = () => {
         config["amount"] = totalPrice * 100;
         setConfig(config);
       } else {
-        toast.error("An error occurred, we could not fetch cart");
+        setCartItems([]);
+        toast.error(response.message);
       }
     } catch (error) {
-      toast.error("An error occurred, we could not fetch cart");
+      toast.error(error.message);
     }
   };
 
@@ -103,13 +104,17 @@ const Cart = () => {
 
   const handleRemoveCartItem = async (itemId) => {
     try {
-      await deleteCart(itemId);
       setCartItems((prevCartItems) =>
-        prevCartItems.filter((item) => item.id !== itemId)
+        prevCartItems.filter((item) => item.cid !== itemId)
       );
-      toast.success("Item removed from cart");
+      const response = await deleteSingleCart(itemId);
+      if(response.success){
+       toast.success("Item removed from cart");
+       window.location.reload();
+      }
+      
     } catch (error) {
-      toast.error("An error occurred while removing the item from cart");
+      toast.error(error.message);
     }
   };
 
@@ -199,7 +204,7 @@ const Cart = () => {
                       <td>
                         <button
                           className="text-red-500 text-2xl"
-                          onClick={() => handleRemoveCartItem(item.id)}
+                          onClick={() => handleRemoveCartItem(item.cid)}
                         >
                           <HiOutlineX />
                         </button>

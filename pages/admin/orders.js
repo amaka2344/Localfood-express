@@ -29,7 +29,7 @@ const Orders = () => {
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {
-      toast.error("error");
+      toast.error(error.message);
     }
   };
 
@@ -44,10 +44,9 @@ const Orders = () => {
         nextStatus = "delivering";
       } else if (currentStatus === "delivering") {
         nextStatus = "completed";
+      } else if (currentStatus === "completed") {
+        return;
       }
-      else if(currentStatus === "completed") {
-       return;
-      } 
 
       const orderData = { status: nextStatus };
       const response = await updateOrder(orderId, orderData);
@@ -65,7 +64,7 @@ const Orders = () => {
 
   const variants = {
     processing: "ghost",
-    delivering: 'ghost',
+    delivering: "ghost",
     pending: "ghost",
     completed: "ghost",
   };
@@ -80,7 +79,9 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    handleGetOrders();
+    if (user !== null) {
+      handleGetOrders();
+    }
   }, [user]);
 
   return (
@@ -122,7 +123,10 @@ const Orders = () => {
                 </a>
               </Link>
             </li>
-            <li className="py-2 px-4 hover:bg-gray-300 cursor-pointer" onClick={logOut}>
+            <li
+              className="py-2 px-4 hover:bg-gray-300 cursor-pointer"
+              onClick={logOut}
+            >
               <a className="flex items-center">
                 <span className="w-6 h-6 mr-2">
                   {/* Add your navigation icon here */}
@@ -161,18 +165,22 @@ const Orders = () => {
                           <td className="py-2 px-4">{order.customerName}</td>
                           <td className="py-2 px-4">{order.amountCharged}</td>
                           <td className="py-2 px-4">{order.orderAt}</td>
-                              {order.cart.length > 0 &&
-                                order.cart.map((cart) => {
-                                  return (
-                                    <>
-                                      <tr>
-                                        <td className="py-2 px-4">{cart.productName}</td>
-                                        <td className="py-2 px-4">{cart.quantity}</td>
-                                        <td className="py-2 px-4">N{cart.price}</td>
-                                      </tr>
-                                    </>
-                                  );
-                                })}
+                          {order.cart.length > 0 &&
+                            order.cart.map((cart) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td className="py-2 px-4">
+                                      {cart.productName}
+                                    </td>
+                                    <td className="py-2 px-4">
+                                      {cart.quantity}
+                                    </td>
+                                    <td className="py-2 px-4">N{cart.price}</td>
+                                  </tr>
+                                </>
+                              );
+                            })}
                           <td className="py-2 px-4">
                             <Chip
                               variant={variants[order.status]}

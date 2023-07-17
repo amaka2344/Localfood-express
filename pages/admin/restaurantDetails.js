@@ -12,21 +12,28 @@ import { registerVendor } from "../../services/user";
 
 const RestaurantDetails = () => {
   const router = useRouter();
-  let jsonData = null;
-  if (typeof localStorage !== 'undefined') {
-    jsonData = localStorage.getItem('regState') !== null ? JSON.parse(localStorage.getItem('regState')) : null;
-  }
+
   const [vendorDetails, setVendorDetails] = useState({
     restaurantName: "",
-    email: jsonData?.email,
+    email: "",
     phoneNumber: "",
     address: "",
     logo: null,
-    password: jsonData?.password,
+    password: ""
   });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let jsonData = null;
+    if (typeof localStorage !== "undefined") {
+      jsonData =
+        localStorage.getItem("regState") !== null
+          ? JSON.parse(localStorage.getItem("regState"))
+          : null;
+          vendorDetails["password"] = jsonData?.password;
+          vendorDetails["email"] = jsonData?.email;
+          setVendorDetails(vendorDetails);
+    }
     if (
       !jsonData.hasOwnProperty("email") ||
       !jsonData.hasOwnProperty("password")
@@ -73,10 +80,10 @@ const RestaurantDetails = () => {
           logo: null,
           password: "",
         });
-        setIsLoading(false)
+        setIsLoading(false);
         // navigate user to login page
         toast.success("Registration Successful, redirecting to login");
-        localStorage.removeItem('regState')
+        localStorage.removeItem("regState");
         setTimeout(() => {
           router.push("/login");
         }, 1000);
