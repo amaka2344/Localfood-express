@@ -107,6 +107,7 @@ const Cart = () => {
       setCartItems((prevCartItems) =>
         prevCartItems.filter((item) => item.id !== itemId)
       );
+      await deleteCart(user.uid)
       toast.success("Item removed from cart");
     } catch (error) {
       toast.error("An error occurred while removing the item from cart");
