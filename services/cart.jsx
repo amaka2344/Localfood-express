@@ -79,15 +79,12 @@ const deleteCart = async (userId) => {
 
 const deleteSingleCart = async (cartId) => {
   try {
-    alert(cartId);
     const updatedData = { deleted: true };
     const querySnapshot = await getDocs(
       query(collection(db, "carts"), where("cid", "==", cartId))
     );
     querySnapshot.forEach(async (doc) => {
       const cartRef = doc.ref;
-      alert(JSON.stringify(cartRef));
-      //await deleteDoc(cartRef);
       await updateDoc(cartRef, updatedData);
     });
     return { success: true, message: "Cart deleted successfully" };
