@@ -28,7 +28,6 @@ const EditProfile = () => {
       const response = await updateUser(user.uid, updatedUserDetails);
       setLoading(false);
       if (response.hasOwnProperty("success") && response.success) {
-        alert(response.message);
         toast.success(response.message);
         localStorage.setItem("loggedInUser", JSON.stringify(response.userData));
       } else {
