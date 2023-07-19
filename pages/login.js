@@ -57,7 +57,7 @@ const Login = () => {
         if (response.userData.userType === "vendor") {
           router.push("/admin/dashboard/");
         } else {
-          router.push("/userHomepage");
+          router.push("/");
         }
       } else {
         toast.error("Login failed");

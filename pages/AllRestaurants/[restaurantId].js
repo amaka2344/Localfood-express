@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { Typography } from "@material-tailwind/react";
 import { BiPlus } from "react-icons/bi";
 import Image from "next/image";
-import spagetti from "../../public/spagetti.jpg";
 import MainPageNav from "../../components/mainPageNavbar/mainPageNav";
 import Footer from "../../components/Footer";
 import { getVendor, getLoggedInUser, getUser } from "../../services/user";
@@ -80,8 +79,9 @@ const RestaurantId = () => {
       <div className="pt-[6%]">
         <Image
           className="w-full"
-          height={400}
-          src={spagetti}
+          height={800}
+          width={3000}
+          src={restaurant !== null && restaurant.logo}
            alt="spaghetti banner"
         />
         <figure className="relative">
@@ -148,6 +148,13 @@ const RestaurantId = () => {
           </div>
         </section>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
       <Footer />
     </>
   );

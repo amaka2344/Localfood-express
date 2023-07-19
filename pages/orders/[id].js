@@ -58,9 +58,9 @@ const Order = () => {
   return (
     <div>
       <MainPageNav />
-      <div className="p-[50px] flex lg:pt-[8%] md:pt-[10%] sm:pt-[12%] px-[6%]">
+      <div className="p-[50px] flex lg:pt-[8%] md:pt-[10%] sm:pt-[12%] px-[6%] min-h-screen">
         <div className="flex-[2]">
-          <div>
+          <div className="">
             {order !== null && (
               <table className="w-full border-collapse text-left  text-black">
                 <thead>

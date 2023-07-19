@@ -24,7 +24,9 @@ const Dashboard = () => {
 
   const handleGetOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getOrdersByVendorId(user.uid);
       setRecentOrders(response.orders);
     } catch (error) {
@@ -34,7 +36,9 @@ const Dashboard = () => {
 
   const handleGetTotalProducts = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getTotalProducts(user.uid);
       setProductCount(response.count);
     } catch (error) {
@@ -44,17 +48,22 @@ const Dashboard = () => {
 
   const handleGetTotalPendingOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getTotalPendingOrders(user.uid);
       setOrderCount(response.count);
     } catch (error) {
       toast.error("error");
+
     }
   };
 
   const handleGetProducts = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getProductsByVendor(user.uid);
       setRecentProducts(response.products);
     } catch (error) {
@@ -231,11 +240,11 @@ const Dashboard = () => {
                       <table>
                         <thead>
                           <tr>
-                          <th>Product Name</th>
-                          <th>Qty</th>
-                          <th>Price</th>
+                            <th>Product Name</th>
+                            <th>Qty</th>
+                            <th>Price</th>
                           </tr>
-                          
+
                         </thead>
                         {order.cart.length > 0 &&
                           order.cart.map((cart) => {

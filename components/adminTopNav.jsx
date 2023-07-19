@@ -30,7 +30,6 @@ const TopNav = () => {
       };
       const response = await updateBusiness(user.uid, businessData);
       if (response.hasOwnProperty("success") && response.success) {
-        alert(response.message);
         toast.success(response.message);
         setLoading(false);
         setIsDrawerOpen(false);
@@ -148,6 +147,13 @@ const TopNav = () => {
           </div>
         )}
       </nav>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

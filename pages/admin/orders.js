@@ -25,11 +25,15 @@ const Orders = () => {
 
   const handleGetOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {
       toast.error("error");
+      alert(JSON.stringify(error))
+
     }
   };
 
@@ -45,9 +49,9 @@ const Orders = () => {
       } else if (currentStatus === "delivering") {
         nextStatus = "completed";
       }
-      else if(currentStatus === "completed") {
-       return;
-      } 
+      else if (currentStatus === "completed") {
+        return;
+      }
 
       const orderData = { status: nextStatus };
       const response = await updateOrder(orderId, orderData);
@@ -60,6 +64,7 @@ const Orders = () => {
       }
     } catch (error) {
       toast.error("error");
+
     }
   };
 
@@ -161,18 +166,18 @@ const Orders = () => {
                           <td className="py-2 px-4">{order.customerName}</td>
                           <td className="py-2 px-4">{order.amountCharged}</td>
                           <td className="py-2 px-4">{order.orderAt}</td>
-                              {order.cart.length > 0 &&
-                                order.cart.map((cart) => {
-                                  return (
-                                    <>
-                                      <tr>
-                                        <td className="py-2 px-4">{cart.productName}</td>
-                                        <td className="py-2 px-4">{cart.quantity}</td>
-                                        <td className="py-2 px-4">N{cart.price}</td>
-                                      </tr>
-                                    </>
-                                  );
-                                })}
+                          {order.cart.length > 0 &&
+                            order.cart.map((cart) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td className="py-2 px-4">{cart.productName}</td>
+                                    <td className="py-2 px-4">{cart.quantity}</td>
+                                    <td className="py-2 px-4">N{cart.price}</td>
+                                  </tr>
+                                </>
+                              );
+                            })}
                           <td className="py-2 px-4">
                             <Chip
                               variant={variants[order.status]}
