@@ -143,7 +143,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <h1 className="text-black text-3xl pt-5">Restaurants you might like</h1>
+      <h1 className="text-black text-3xl pt-10 ml-20">Restaurants you might like</h1>
       {restaurants.length > 0 && <RestaurantList restaurants={restaurants} />}
       {restaurants.length === 0 && (
         <div className="w-full">No restaurant found </div>

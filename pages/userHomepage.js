@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { BsGeo } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { toast, Toaster } from "react-hot-toast";
@@ -7,15 +7,19 @@ import Image from "next/image";
 import logo11 from "../public/logo11.png";
 import logo12 from "../public/logo12.png";
 import logo13 from "../public/logo13.png";
-import RestaurantCard from "../components/restuarantCard";
+import RestaurantList from "../components/restaurantList";
 import MainPageNavBar from "../components/mainPageNavbar/mainPageNav";
 import Footer from "../components/Footer";
 import { geocodeAddress } from "../services/misc";
+import { getVendors } from "../services/user";
+
 
 const UserHomepage = () => {
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+
 
   const handleFetchVendors = async () => {
     try {
@@ -31,6 +35,18 @@ const UserHomepage = () => {
       toast.error("We could not proceed with request");
     }
   };
+  const getRestaurants = async () => {
+    try {
+      const response = await getVendors();
+      setRestaurants(response.users);
+    } catch (error) {
+      toast.error("An error occured");
+    }
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
   return (
     <div>
       <MainPageNavBar />
@@ -137,7 +153,10 @@ const UserHomepage = () => {
       </div>
 
       <h1 className="text-black text-3xl pt-5">Restaurants you might like</h1>
-      <RestaurantCard />
+      {restaurants.length > 0 && <RestaurantList restaurants={restaurants} />}
+      {restaurants.length === 0 && (
+        <div className="w-full">No restaurant found </div>
+      )}
       <Footer />
     </div>
   );
