@@ -25,7 +25,7 @@ const Orders = () => {
 
   const handleGetOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if(user===null) return;
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {

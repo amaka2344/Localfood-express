@@ -147,6 +147,9 @@ const Products = () => {
 
   const handlegetProductsByVendor = async () => {
     try {
+      if(user===null){
+        return;
+      }
       const response = await getProductsByVendor(user.uid);
       setProductList(response.products);
     } catch (error) {
