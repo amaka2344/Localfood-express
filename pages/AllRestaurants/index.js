@@ -47,7 +47,7 @@ const AllRestaurants = () => {
   return (
      <div className="min-h-screen flex flex-col">
       <MainPageNav />
-      <div className="pt-[8%] items-center py-1  px-[4%] md:px-[6%] ">
+      <div className="pt-[8%] items-center py-1  px-[4%] md:px-[6%] flex-grow ">
         <div className="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
           <div className="relative flex-grow w-full">
             <h1 className="leading-7 text-lg text-gray-800">

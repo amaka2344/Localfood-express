@@ -25,11 +25,15 @@ const Orders = () => {
 
   const handleGetOrders = async () => {
     try {
-      if(user===null) return;
+      if (user === null) {
+        return
+      }
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {
-      toast.error(error.message);
+      toast.error("error");
+      alert(JSON.stringify(error))
+
     }
   };
 
@@ -44,7 +48,8 @@ const Orders = () => {
         nextStatus = "delivering";
       } else if (currentStatus === "delivering") {
         nextStatus = "completed";
-      } else if (currentStatus === "completed") {
+      }
+      else if (currentStatus === "completed") {
         return;
       }
 
@@ -59,6 +64,7 @@ const Orders = () => {
       }
     } catch (error) {
       toast.error("error");
+
     }
   };
 
@@ -170,12 +176,8 @@ const Orders = () => {
                               return (
                                 <>
                                   <tr>
-                                    <td className="py-2 px-4">
-                                      {cart.productName}
-                                    </td>
-                                    <td className="py-2 px-4">
-                                      {cart.quantity}
-                                    </td>
+                                    <td className="py-2 px-4">{cart.productName}</td>
+                                    <td className="py-2 px-4">{cart.quantity}</td>
                                     <td className="py-2 px-4">N{cart.price}</td>
                                   </tr>
                                 </>
