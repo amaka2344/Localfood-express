@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { HiOutlineX } from "react-icons/hi";
 import Footer from "../components/Footer";
@@ -6,7 +6,11 @@ import MainPageNav from "../components/mainPageNavbar/mainPageNav";
 import toast, { Toaster } from "react-hot-toast";
 import { usePaystackPayment } from "react-paystack";
 import { getLoggedInUser } from "../services/user";
-import { getCartsByUserId, deleteCart, deleteSingleCart } from "../services/cart";
+import {
+  getCartsByUserId,
+  deleteCart,
+  deleteSingleCart,
+} from "../services/cart";
 import { addOrder } from "../services/order";
 import { getStorageParam } from "../services/misc";
 import { useRouter } from "next/router";
@@ -14,7 +18,7 @@ import { useRouter } from "next/router";
 const Cart = () => {
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [longitude, setLongitude] = useState("");
@@ -32,13 +36,13 @@ const Cart = () => {
       config["email"] = user.email;
       setConfig(config);
       setUser(user);
-      handleGetCart(user.uid);
     }
   };
 
-  const handleGetCart = async (userId) => {
+  const handleGetCart = async () => {
     try {
-      const response = await getCartsByUserId(userId);
+      if (user === null) return;
+      const response = await getCartsByUserId(user.uid);
       if (response.hasOwnProperty("success") && response.success) {
         setCartItems(response.cartItems);
         const totalPrice = response.cartItems.reduce((accumulator, item) => {
@@ -108,9 +112,9 @@ const Cart = () => {
         prevCartItems.filter((item) => item.cid !== itemId)
       );
       const response = await deleteSingleCart(itemId);
-      if(response.success){
-       toast.success("Item removed from cart");
-       //window.location.reload();
+      if (response.success) {
+        toast.success("Item removed from cart");
+        //window.location.reload();
       }
     } catch (error) {
       toast.error(error.message);
@@ -157,6 +161,11 @@ const Cart = () => {
       setTotal(0);
     }
   }, [cartItems]);
+ 
+  useEffect(() => {
+    handleGetCart();
+  }, [user]);
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -213,7 +222,9 @@ const Cart = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-center text-2xl text-black font-bold">No products in the cart</p>
+              <p className="text-center text-2xl text-black font-bold">
+                No products in the cart
+              </p>
             )}
             <div className="w-full text-black" style={{ marginTop: "20px" }}>
               <h3>Delivering to: {address}</h3>
@@ -223,7 +234,8 @@ const Cart = () => {
             <div className="w-full max-w-md bg-amber-100 p-8 flex flex-col justify-between">
               <h2 className="text-2xl font-bold mb-4">CART TOTAL</h2>
               <div className="mb-2">
-                <b className="mr-[10px]">Subtotal:</b> &#x20A6;{total.toFixed(2)}
+                <b className="mr-[10px]">Subtotal:</b> &#x20A6;
+                {total.toFixed(2)}
               </div>
               <div className="mb-2">
                 <b className="mr-[10px]">Discount:</b> &#x20A6;0.00

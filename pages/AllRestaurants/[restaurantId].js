@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { Typography } from "@material-tailwind/react";
 import { BiPlus } from "react-icons/bi";
@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import { getVendor, getLoggedInUser, getUser } from "../../services/user";
 import { getProductsByVendor } from "../../services/product";
 import { addCart } from "../../services/cart";
+import { CartContext } from '../cartContext';
 import toast, { Toaster } from "react-hot-toast";
 
 const RestaurantId = () => {
@@ -15,10 +16,12 @@ const RestaurantId = () => {
   const { restaurantId } = router.query;
   const [restaurant, setRestaurant] = useState(null);
   const [productList, setProductList] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const { updateCartData } = useContext(CartContext);
 
   const getRestaurant = async () => {
     try {
+      if(restaurantId===null) return;
       const response = await getVendor(restaurantId);
       setRestaurant(response.userData);
     } catch (error) {
@@ -28,6 +31,7 @@ const RestaurantId = () => {
 
   const handleGetProductsByVendor = async () => {
     try {
+      if(restaurantId===null) return;
       const response = await getProductsByVendor(restaurantId);
       setProductList(response.products);
     } catch (error) {
@@ -52,7 +56,8 @@ const RestaurantId = () => {
       const response = await addCart(cartData);
       if (response.hasOwnProperty("success") && response.success) {
         toast.success("Product added to cart");
-        window.location.reload();
+        updateCartData(cartData);
+        //window.location.reload();
       } else {
         toast.error("Oops!!, failed to add product to cart");
       }
