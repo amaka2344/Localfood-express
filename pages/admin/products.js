@@ -147,10 +147,14 @@ const Products = () => {
 
   const handlegetProductsByVendor = async () => {
     try {
+      if(user===null){
+        return
+      }
       const response = await getProductsByVendor(user.uid);
       setProductList(response.products);
     } catch (error) {
       toast.error("error");
+
     }
   };
 
@@ -376,26 +380,31 @@ const Products = () => {
 
           {isDeleteModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-10 text-black">
-              <div className="bg-white rounded-lg p-6 w-96 z-50">
+              <div className="bg-white shadow rounded-lg p-6 w-96 z-50">
                 <h2 className="text-lg font-bold mb-4">Delete Menu</h2>
                 <p>Are you sure you want to delete this product?</p>
+
+                <div className="mb-4 flex">
+                  {loading ? (
+                    <ClipLoader color="black" size={20} />
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      onClick={handleDelete}
+                      className="bg-blue-500 text-white px-4 py-2 mt-8 rounded"
+                    >
+                      Yes, Proceed
+                    </button>
+                  )}
+                  <div className="ml-6" onClick={handleCloseDeleteModal}>
+                    <button className="bg-red-500 text-white px-4 py-2 mt-8 rounded">
+                    close
+                      </button> </div>
+                </div>
               </div>
-              <div className="mb-4 flex">
-                {loading ? (
-                  <ClipLoader color="black" size={20} />
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    onClick={handleDelete}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                  >
-                    Yes, Proceed
-                  </button>
-                )}
-              </div>
-              <div className="mb-4" onClick={handleCloseDeleteModal}></div>
             </div>
+
           )}
 
           <div className=" gap-4 text-black p-4">
@@ -477,6 +486,13 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

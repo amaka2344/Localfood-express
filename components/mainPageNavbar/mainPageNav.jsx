@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import Logo from "../logo";
 import Image from "next/image";
@@ -11,8 +11,10 @@ import { BsPerson } from "react-icons/bs";
 import MainMenuDropdown from "../mainPageNavbar/mainManuDropdown";
 import { getVendor, getLoggedInUser, logOutUser } from "../../services/user";
 import { getCartsByUserId } from "../../services/cart";
+import { CartContext } from "../../pages/cartContext";
 
 const MainPageNavBar = () => {
+  const { cartData } = useContext(CartContext);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colorChange, setColorChange] = useState(false);
@@ -23,13 +25,13 @@ const MainPageNavBar = () => {
     const user = await getLoggedInUser();
     if (user) {
       setUser(user);
-      handleGetCart(user.uid);
     }
   };
 
-  const handleGetCart = async (userId) => {
+  const handleGetCart = async () => {
     try {
-      const response = await getCartsByUserId(userId);
+      if(user === null) return;
+      const response = await getCartsByUserId(user.uid);
       if (response.hasOwnProperty("success") && response.success) {
         setCarts(response.cartItems.length);
       } else {
@@ -55,6 +57,11 @@ const MainPageNavBar = () => {
     await logOutUser();
     router.push("/login");
   };
+
+  useEffect(() => {
+    handleGetCart();
+  }, [cartData, user]);
+
 
   return (
     <nav
