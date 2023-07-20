@@ -29,8 +29,13 @@ import { uploadImage } from "./misc";
 const createProduct = async (productData) => {
   try {
     //upload product photo to cloudinary
-    const photo = await uploadImage(productData.photo);
-    productData["photo"] = photo;
+    if (productData.hasOwnProperty("photo") && productData.photo !== "") {
+      const photo = await uploadImage(productData.photo);
+      productData["photo"] = photo;
+    } else {
+      delete productData.photo;
+    }
+
     const docRef = await addDoc(collection(db, "products"), productData);
     //console.log('Product created with ID: ', docRef.id);
     return { success: true, message: "Product added successfully" };
@@ -97,8 +102,12 @@ const updatedData = {
 */
 const updateProduct = async (productId, updatedData) => {
   try {
-    const photo = await uploadImage(updatedData.photo);
-    updatedData["photo"] = photo;
+    if (updatedData.hasOwnProperty("photo") && updatedData.photo !== "") {
+      const photo = await uploadImage(updatedData.photo);
+      updatedData["photo"] = photo;
+    } else {
+      delete updatedData.photo;
+    }
     const productRef = doc(db, "products", productId);
     await updateDoc(productRef, updatedData);
     return { success: true, message: "Product updated successfully" };

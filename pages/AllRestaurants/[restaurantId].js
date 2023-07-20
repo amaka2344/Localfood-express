@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { Typography } from "@material-tailwind/react";
 import { BiPlus } from "react-icons/bi";
 import Image from "next/image";
-import spagetti from "../../public/spagetti.jpg";
 import MainPageNav from "../../components/mainPageNavbar/mainPageNav";
 import Footer from "../../components/Footer";
 import { getVendor, getLoggedInUser, getUser } from "../../services/user";
 import { getProductsByVendor } from "../../services/product";
 import { addCart } from "../../services/cart";
+import { CartContext } from '../cartContext';
 import toast, { Toaster } from "react-hot-toast";
 
 const RestaurantId = () => {
@@ -16,29 +16,33 @@ const RestaurantId = () => {
   const { restaurantId } = router.query;
   const [restaurant, setRestaurant] = useState(null);
   const [productList, setProductList] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const { updateCartData } = useContext(CartContext);
 
   const getRestaurant = async () => {
     try {
+      if(restaurantId===null) return;
       const response = await getVendor(restaurantId);
       setRestaurant(response.userData);
     } catch (error) {
-      toast.error("An error occured");
+      toast.error("An error occurred");
     }
   };
 
   const handleGetProductsByVendor = async () => {
     try {
+      if(restaurantId===null) return;
       const response = await getProductsByVendor(restaurantId);
       setProductList(response.products);
     } catch (error) {
-      toast.error("error");
+      toast.error("An error occurred");
     }
   };
 
   const handleAddCart = async (product) => {
     try {
       const cartData = {
+        cid: new Date().getTime().toString(),
         productId: product.id,
         quantity: 1,
         price: product.price,
@@ -47,15 +51,18 @@ const RestaurantId = () => {
         vendor: product.userId,
         photo: product.photo,
         productName: product.productName,
+        deleted: false
       };
       const response = await addCart(cartData);
       if (response.hasOwnProperty("success") && response.success) {
         toast.success("Product added to cart");
+        updateCartData(cartData);
+        //window.location.reload();
       } else {
         toast.error("Oops!!, failed to add product to cart");
       }
     } catch (error) {
-      toast.error("error");
+      toast.error("An error occurred");
     }
   };
 
@@ -80,10 +87,10 @@ const RestaurantId = () => {
       <div className="pt-[6%]">
         <Image
           className="w-full"
-          height={400}
-          src={spagetti}
-          //you can use the restaurant logo here; or can also collect banner upload at reg time
-          alt="spaghetti banner"
+          height={800}
+          width={3000}
+          src={restaurant !== null && restaurant.logo}
+           alt="spaghetti banner"
         />
         <figure className="relative">
           <figcaption className="absolute bottom-8 left-2/4 transform -translate-x-2/4 sm:flex sm:justify-between bg-white py-4 px-6 sm:w-[calc(100%-4rem)] sm:saturate-200 sm:backdrop-blur-sm">
@@ -106,48 +113,56 @@ const RestaurantId = () => {
               {productList.length > 0 &&
                 productList.map((product, index) => {
                   return (
-                    <>
-                      <div key={index} className="p-4 lg:w-1/2 md:w-full">
-                        <div className="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
-                          <div className="w-[20%] sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center flex-shrink-0">
-                            <Image
-                              src={product.photo}
-                              width="300"
-                              height="300"
-                              alt="Food"
-                              className="w-12 h-12"
-                            />
-                          </div>
-                          <div className="flex-grow">
-                            <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-                              {product.productName}
-                            </h2>
-                            <p className="leading-relaxed text-base">
-                              {product.description}
+                    <div
+                      key={index}
+                      className="p-4 lg:w-1/2 md:w-full sm:w-1/2 xl:w-1/3"
+                    >
+                      <div className="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8">
+                        <div className="w-[20%] sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center flex-shrink-0">
+                          <Image
+                            src={product.photo}
+                            width="300"
+                            height="300"
+                            alt="Food"
+                            className="w-12 h-12"
+                          />
+                        </div>
+                        <div className="flex-grow">
+                          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                            {product.productName}
+                          </h2>
+                          <p className="leading-relaxed text-base">
+                            {product.description}
+                          </p>
+                          <div className="flex items-center mt-3 justify-between">
+                            <p className="ml-2 text-amber-500 pr-8 font-bold">
+                              &#x20A6; {product.price} / {product.unitId}
                             </p>
-                            <div className="flex items-center mt-3 justify-end">
-                              <p className="ml-2 text-amber-500 pr-8 font-bold">
-                                &#x20A6; {product.price} / {product.unitId}
-                              </p>
-                              <button
-                                className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded"
-                                onClick={() => {
-                                  handleAddCart(product);
-                                }}
-                              >
-                                <BiPlus />
-                              </button>
-                            </div>
+                            <button
+                              className="bg-[#A1C75C] hover:bg-[#A1C75C] text-white font-bold py-2 px-4 rounded"
+                              onClick={() => {
+                                handleAddCart(product);
+                              }}
+                            >
+                              <BiPlus />
+                            </button>
                           </div>
                         </div>
                       </div>
-                    </>
+                    </div>
                   );
                 })}
             </div>
           </div>
         </section>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
       <Footer />
     </>
   );

@@ -24,7 +24,9 @@ const Dashboard = () => {
 
   const handleGetOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getOrdersByVendorId(user.uid);
       setRecentOrders(response.orders);
     } catch (error) {
@@ -34,7 +36,9 @@ const Dashboard = () => {
 
   const handleGetTotalProducts = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getTotalProducts(user.uid);
       setProductCount(response.count);
     } catch (error) {
@@ -44,17 +48,22 @@ const Dashboard = () => {
 
   const handleGetTotalPendingOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getTotalPendingOrders(user.uid);
       setOrderCount(response.count);
     } catch (error) {
       toast.error("error");
+
     }
   };
 
   const handleGetProducts = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getProductsByVendor(user.uid);
       setRecentProducts(response.products);
     } catch (error) {
@@ -168,7 +177,7 @@ const Dashboard = () => {
                 </a>
               </Link>
             </li>
-            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+            <li className="py-2 px-4 hover:bg-gray-300 cursor-pointer" onClick={logOut}>
               <a className="flex items-center">
                 <span className="w-6 h-6 mr-2">
                   {/* Add your navigation icon here */}
@@ -230,9 +239,12 @@ const Dashboard = () => {
                     <td className="py-2 px-4">
                       <table>
                         <thead>
-                          <td>Product Name</td>
-                          <td>Qty</td>
-                          <td>Price</td>
+                          <tr>
+                            <th>Product Name</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                          </tr>
+
                         </thead>
                         {order.cart.length > 0 &&
                           order.cart.map((cart) => {
@@ -261,6 +273,13 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

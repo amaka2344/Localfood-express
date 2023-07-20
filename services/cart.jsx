@@ -5,6 +5,7 @@ import {
   addDoc,
   doc,
   getDoc,
+  deleteDoc,
   updateDoc,
   collection,
 } from "firebase/firestore";
@@ -76,10 +77,30 @@ const deleteCart = async (userId) => {
   }
 };
 
+const deleteSingleCart = async (cartId) => {
+  try {
+    const updatedData = { deleted: true };
+    const querySnapshot = await getDocs(
+      query(collection(db, "carts"), where("cid", "==", cartId))
+    );
+    querySnapshot.forEach(async (doc) => {
+      const cartRef = doc.ref;
+      await updateDoc(cartRef, updatedData);
+    });
+    return { success: true, message: "Cart deleted successfully" };
+  } catch (error) {
+    throw new Error("Error deleting cart");
+  }
+};
+
 const getCartsByUserId = async (userId) => {
   try {
     const cartsCollection = collection(db, "carts");
-    const q = query(cartsCollection, where("userId", "==", userId));
+    const q = query(
+      cartsCollection,
+      where("userId", "==", userId),
+      where("deleted", "==", false)
+    );
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
@@ -90,11 +111,18 @@ const getCartsByUserId = async (userId) => {
       //console.log('Cart items for userId:', userId, cartItems);
       return { success: true, message: "", cartItems };
     } else {
-      throw new Error("No cart items found for the specified userId");
+      return { success: false, message: "No cart items found for the specified userId"};
     }
   } catch (error) {
     throw new Error("Error getting cart items: ", error);
   }
 };
 
-export { addCart, updateCart, getCart, deleteCart, getCartsByUserId };
+export {
+  addCart,
+  updateCart,
+  getCart,
+  deleteCart,
+  deleteSingleCart,
+  getCartsByUserId,
+};

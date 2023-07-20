@@ -1,21 +1,16 @@
-import { React, useState } from 'react';
-import { useRouter } from 'next/router';
-import MainPageNavBar from '../components/mainPageNavbar/mainPageNav';
+import { React, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import MainPageNavBar from "../components/mainPageNavbar/mainPageNav";
+import { getLoggedInUser, updateUser } from "../services/user";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditProfile = () => {
-
-  //previous user details
-  const [previousUserDetails] = useState({
-    username: "john doe",
-    address: "123 main st, abuja"
-  })
-
-  const router = useRouter()
-
-  //updated user(form state)
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
-    Username: previousUserDetails.username,
-    Address: previousUserDetails.address
+    userName: "",
+    address: "",
   });
 
   const handleInputChange = (e) => {
@@ -26,30 +21,59 @@ const EditProfile = () => {
     }));
   };
 
-
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     // Perform save profile logic here
-    console.log('Name:', updatedUserDetails);
+    try {
+      setLoading(true);
+      const response = await updateUser(user.uid, updatedUserDetails);
+      setLoading(false);
+      if (response.hasOwnProperty("success") && response.success) {
+        toast.success(response.message);
+        localStorage.setItem("loggedInUser", JSON.stringify(response.userData));
+      } else {
+        toast.error("Oops!!, user update failed");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message);
+      alert(error.message);
+    }
   };
 
   //redirect to homepage after editing profile
   // router.push('/userHomepage')
 
+  const handleCheckLogin = async () => {
+    const user = await getLoggedInUser();
+    if (!user || user.userType !== "customer") {
+      toast.error("Please login as customer");
+      router.push("/login");
+    }
+    setUser(user);
+    updatedUserDetails["userName"] = user.userName;
+    updatedUserDetails["address"] = user.address;
+    setUpdatedUserDetails(updatedUserDetails);
+  };
+
+  useEffect(() => {
+    handleCheckLogin();
+  }, []);
+
   return (
     <>
       <MainPageNavBar />
-       <div className="flex flex-col items-center justify-center min-h-screen text-black">
-      <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
-      <div className="w-full sm:w-96 px-4">
-          <form>
+      <div className="flex flex-col items-center justify-center min-h-screen text-black">
+        <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
+        <div className="w-full sm:w-96 px-4">
             <div className="mb-4">
               <label htmlFor="name" className="block mb-2 font-medium">
                 Username:
               </label>
               <input
                 type="text"
-                name="Username"
-                value={updatedUserDetails.Username}
+                name="userName"
+                placeholder="Enter New Username"
+                defaultValue={updatedUserDetails.userName}
                 onChange={handleInputChange}
                 className="border border-gray-300 px-4 py-2 rounded-lg w-full"
               />
@@ -59,22 +83,30 @@ const EditProfile = () => {
                 Address:
               </label>
               <input
-                type="address"
-                name="Address"
-                value={updatedUserDetails.Address}
+                type="tex"
+                name="address"
+                placeholder="Enter New Address"
+                defaultValue={updatedUserDetails.address}
                 onChange={handleInputChange}
                 className="border border-gray-300 px-4 py-2 rounded-lg w-full"
               />
             </div>
             <button
               onClick={handleSaveProfile}
+              disabled={loading}
               className="bg-[#A1C75C] text-white px-4 py-2 rounded-lg"
             >
-              Save
+              {loading ? "Wait..." : "Save"}
             </button>
-          </form>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };

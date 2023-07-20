@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TopNav from "../../components/adminTopNav";
@@ -26,11 +25,15 @@ const Orders = () => {
 
   const handleGetOrders = async () => {
     try {
-      if (user.uid === undefined) return;
+      if (user === null) {
+        return
+      }
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {
       toast.error("error");
+      alert(JSON.stringify(error))
+
     }
   };
 
@@ -46,9 +49,9 @@ const Orders = () => {
       } else if (currentStatus === "delivering") {
         nextStatus = "completed";
       }
-      else if(currentStatus === "completed") {
-       return;
-      } 
+      else if (currentStatus === "completed") {
+        return;
+      }
 
       const orderData = { status: nextStatus };
       const response = await updateOrder(orderId, orderData);
@@ -61,11 +64,13 @@ const Orders = () => {
       }
     } catch (error) {
       toast.error("error");
+
     }
   };
 
   const variants = {
     processing: "ghost",
+    delivering: "ghost",
     pending: "ghost",
     completed: "ghost",
   };
@@ -80,7 +85,9 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    handleGetOrders();
+    if (user !== null) {
+      handleGetOrders();
+    }
   }, [user]);
 
   return (
@@ -122,7 +129,10 @@ const Orders = () => {
                 </a>
               </Link>
             </li>
-            <li className="py-2 px-4 hover:bg-gray-300" onClick={logOut}>
+            <li
+              className="py-2 px-4 hover:bg-gray-300 cursor-pointer"
+              onClick={logOut}
+            >
               <a className="flex items-center">
                 <span className="w-6 h-6 mr-2">
                   {/* Add your navigation icon here */}
@@ -130,7 +140,6 @@ const Orders = () => {
                 Logout
               </a>
             </li>
-            {/* Add more navigation links here */}
           </ul>
         </div>
 
@@ -148,7 +157,7 @@ const Orders = () => {
                     <th className="py-2 px-4">Customer</th>
                     <th className="py-2 px-4">Total</th>
                     <th className="py-2 px-4">Date</th>
-                    <th className="py-2 px-4">Items</th>
+                    <th className="py-2 px-4">Product Items</th>
                     <th className="py-2 px-4">Status</th>
                     <th className="py-2 px-4">Action</th>
                   </tr>
@@ -157,32 +166,23 @@ const Orders = () => {
                   {orders.length > 0 &&
                     orders.map((order, index) => {
                       return (
-                        <tr className="border-b">
+                        <tr key={index} className="border-b">
                           <td className="py-2 px-4">{order.orderId}</td>
                           <td className="py-2 px-4">{order.customerName}</td>
                           <td className="py-2 px-4">{order.amountCharged}</td>
                           <td className="py-2 px-4">{order.orderAt}</td>
-                          <td className="py-2 px-4">
-                            <table>
-                              <thead>
-                                <td>Product Name</td>
-                                <td>Qty</td>
-                                <td>Price</td>
-                              </thead>
-                              {order.cart.length > 0 &&
-                                order.cart.map((cart) => {
-                                  return (
-                                    <>
-                                      <tr>
-                                        <td>{cart.productName}</td>
-                                        <td>{cart.quantity}</td>
-                                        <td>N{cart.price}</td>
-                                      </tr>
-                                    </>
-                                  );
-                                })}
-                            </table>
-                          </td>
+                          {order.cart.length > 0 &&
+                            order.cart.map((cart) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td className="py-2 px-4">{cart.productName}</td>
+                                    <td className="py-2 px-4">{cart.quantity}</td>
+                                    <td className="py-2 px-4">N{cart.price}</td>
+                                  </tr>
+                                </>
+                              );
+                            })}
                           <td className="py-2 px-4">
                             <Chip
                               variant={variants[order.status]}
@@ -212,6 +212,13 @@ const Orders = () => {
             </div>
           </div>
         </div>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
       </div>
     </>
   );

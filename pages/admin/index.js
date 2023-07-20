@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 //import loader
 import ClipLoader from "react-spinners/ClipLoader";
-//import services
-import { login } from "../../services/user";
 
 const AdminLogin = () => {
   const router = useRouter();
@@ -41,8 +39,8 @@ const AdminLogin = () => {
     }
     try {
       setIsLoading(true);
-      const encodedData = encodeURIComponent(JSON.stringify(formData));
-      router.push(`/admin/restaurantDetails?data=${encodedData}`);
+      localStorage.setItem('regState', JSON.stringify(formData));
+      router.push('/admin/restaurantDetails');
     } catch (error) {
       toast.error(error.message);
     }

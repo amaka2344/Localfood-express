@@ -45,9 +45,9 @@ const RecentOrders = () => {
   }, [user]);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <MainPageNavBar />
-      <div className="p-[50px] flex lg:pt-[8%] md:pt-[10%] sm:pt-[12%] px-[6%]">
+      <div className="p-[50px] flex lg:pt-[8%] md:pt-[10%] sm:pt-[12%] px-[6%] text-black flex-grow">
         <div className="flex-[2]">
           <div>
             <table className="w-full text-left" style={{ minHeight: "400px" }}>

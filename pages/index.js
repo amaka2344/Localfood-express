@@ -1,22 +1,24 @@
+import { React, useState, useEffect } from "react";
 import { BsGeo } from "react-icons/bs";
-import Link from "next/link";
 import soup from "../public/soup-removebg-preview.png";
 import Image from "next/image";
 import logo11 from "../public/logo11.png";
 import logo12 from "../public/logo12.png";
 import logo13 from "../public/logo13.png";
-import RestaurantCard from "../components/restuarantCard";
+import RestaurantList from "../components/restaurantList";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { geocodeAddress } from "../services/misc";
+import { getVendors } from "../services/user";
+
 
 export default function Home() {
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
 
   const handleFetchVendors = async () => {
     try {
@@ -32,6 +34,19 @@ export default function Home() {
       toast.error("We could not proceed with request");
     }
   };
+
+  const getRestaurants = async () => {
+    try {
+      const response = await getVendors();
+      setRestaurants(response.users);
+    } catch (error) {
+      toast.error("An error occured");
+    }
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
 
   return (
     <div>
@@ -60,7 +75,7 @@ export default function Home() {
                 setAddress(e.target.value);
               }}
             />
-            <button onClick={handleFetchVendors}>Go</button>
+            <button className="text-black bg-[#A1C75C] w-12 rounded h-10" onClick={handleFetchVendors}>Go</button>
           </div>
         </section>
         <div className="hidden w-1/2 lg:flex justify-end">
@@ -128,8 +143,18 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <h1 className="text-black text-3xl pt-5">Restaurants you might like</h1>
-      <RestaurantCard />
+      <h1 className="text-black text-3xl pt-10 ml-20">Restaurants you might like</h1>
+      {restaurants.length > 0 && <RestaurantList restaurants={restaurants} />}
+      {restaurants.length === 0 && (
+        <div className="w-full">No restaurant found </div>
+      )}
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+          duration: 5000,
+          }}
+        />
       <Footer />
     </div>
   );
