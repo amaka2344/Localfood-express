@@ -32,7 +32,7 @@ const RestaurantList = (props) => {
                       </a>
                     </Link>
                   </div>
-                  <div className="overlay absolute bottom-0 opacity-0 left-0 py-2 pl-6 bg-black w-full text-white transition-opacity duration-300">
+                  <div className="overlay absolute bottom-0  left-0 py-2 pl-6 bg-black w-full text-white transition-opacity duration-300">
                     <Link href={`/AllRestaurants/${restaurant.uid}`}>
                       <a>
                         <h2 className="font-bold text-xl mb-2 cursor-pointer text-white hover:text-[#A1C75C]">
