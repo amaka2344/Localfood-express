@@ -486,6 +486,13 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
     </>
   );
 };
