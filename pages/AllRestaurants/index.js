@@ -11,6 +11,9 @@ const AllRestaurants = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [address, setAddress] = useState("");
+  const [customerLongitude, setCustomerLongitude]= useState("")
+  const [customerLatitude, setCustomerLatitude]= useState("")
+
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -34,6 +37,10 @@ const AllRestaurants = () => {
     try {
       const response = await getStorageParam("address");
       setAddress(response);
+      const longitude = await getStorageParam("longitude");
+      const latitude = await getStorageParam("latitude");
+      setCustomerLongitude(longitude);
+      setCustomerLatitude(latitude);
     } catch (error) {
       toast.error("An error occured");
     }
@@ -45,7 +52,7 @@ const AllRestaurants = () => {
   }, []);
 
   return (
-     <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <MainPageNav />
       <div className="pt-[8%] items-center py-1  px-[4%] md:px-[6%] flex-grow ">
         <div className="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
@@ -76,14 +83,18 @@ const AllRestaurants = () => {
             </button>
           </div>
         </div>
-        {restaurants.length > 0 &&       
-        <RestaurantList restaurants={restaurants} />}
+        {restaurants.length > 0 &&
+          <RestaurantList restaurants={restaurants} 
+          customerLatitude={customerLatitude}
+          customerLongitude={customerLongitude}
+          
+          />}
         {restaurants.length === 0 && (
           <div className="w-full">No restaurant found </div>
         )}
       </div>
-      <Footer/>
-      </div>
+      <Footer />
+    </div>
   );
 };
 
