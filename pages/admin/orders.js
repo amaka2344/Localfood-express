@@ -26,14 +26,12 @@ const Orders = () => {
   const handleGetOrders = async () => {
     try {
       if (user === null) {
-        return
+        return;
       }
       const response = await getOrdersByVendorId(user.uid);
       setOrders(response.orders);
     } catch (error) {
       toast.error("error");
-      alert(JSON.stringify(error))
-
     }
   };
 
@@ -48,8 +46,7 @@ const Orders = () => {
         nextStatus = "delivering";
       } else if (currentStatus === "delivering") {
         nextStatus = "completed";
-      }
-      else if (currentStatus === "completed") {
+      } else if (currentStatus === "completed") {
         return;
       }
 
@@ -64,7 +61,6 @@ const Orders = () => {
       }
     } catch (error) {
       toast.error("error");
-
     }
   };
 
@@ -169,15 +165,22 @@ const Orders = () => {
                         <tr key={index} className="border-b">
                           <td className="py-2 px-4">{order.orderId}</td>
                           <td className="py-2 px-4">{order.customerName}</td>
-                          <td className="py-2 px-4">{order.amountCharged}</td>
-                          <td className="py-2 px-4">{order.orderAt}</td>
+                          <td className="py-2 px-4">
+                           N {order.amountCharged / 100}
+                          </td>
+                          <td className="py-2 px-4">
+                          {order?.orderedAt?.seconds ? new Date(order?.orderedAt?.seconds).toLocaleTimeString("en-US") : ""}</td>
                           {order.cart.length > 0 &&
                             order.cart.map((cart) => {
                               return (
                                 <>
                                   <tr>
-                                    <td className="py-2 px-4">{cart.productName}</td>
-                                    <td className="py-2 px-4">{cart.quantity}</td>
+                                    <td className="py-2 px-4">
+                                      {cart.productName}
+                                    </td>
+                                    <td className="py-2 px-4">
+                                      {cart.quantity}
+                                    </td>
                                     <td className="py-2 px-4">N{cart.price}</td>
                                   </tr>
                                 </>

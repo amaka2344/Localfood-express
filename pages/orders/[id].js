@@ -214,14 +214,14 @@ const Order = () => {
             <h2 className="text-2xl font-bold mb-4">CART TOTAL</h2>
             <div className="mb-2">
               <b className="mr-[10px]">Subtotal:</b> NGN{" "}
-              {order !== null && order.amountCharged}
+              {order !== null && (order.amountCharged/100)}
             </div>
             <div className="mb-2">
               <b className="mr-[10px]">Discount:</b> $0.00
             </div>
             <div className="mb-2">
               <b className="mr-[10px]">Total:</b> NGN{" "}
-              {order !== null && order.amountCharged}
+              {order !== null && (order.amountCharged/100)}
             </div>
             <button
               disabled
