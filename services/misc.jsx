@@ -33,6 +33,35 @@ const uploadImage = async (base64String) => {
   }
 };
 
+const sendEmail = async (mail) => {
+  const url = "https://api.zeptomail.com/v1.1/email";
+  const data = {
+    bounce_address: "no-reply@bounce.swaptrex.com",
+    from: { address: "no-reply@swaptrex.com" },
+    to: [{ email_address: { address: mail.to, name: mail.vendorName } }],
+    subject: "Order Notification",
+    htmlbody:
+      "<div><b> Hi  " +
+      mail.vendorName +
+      ",</b> <br/>You have a new order with the following details <br/><br/>",
+    ///+JSON.stringify(mail.cartItems)+"<br/><br/><b>Total:</b>"+mail.total+"<br/>"+comment+"</div>"
+  };
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization:
+      "Zoho-enczapikey ",
+  };
+
+  try {
+    await axios.post(url, data, { headers });
+    return true;
+    // Handle the response data as needed
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const getStorageParam = async (param) => {
   try {
     const value = localStorage.getItem(param);
@@ -45,4 +74,4 @@ const getStorageParam = async (param) => {
   }
 };
 
-export { geocodeAddress, uploadImage, getStorageParam };
+export { geocodeAddress, uploadImage, sendEmail, getStorageParam };

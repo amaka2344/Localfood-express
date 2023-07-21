@@ -260,7 +260,7 @@ const Dashboard = () => {
                           })}
                       </table>
                     </td>
-                    <td className="py-2 px-4">{order.amountCharged}</td>
+                    <td className="py-2 px-4">{(order.amountCharged/100)}</td>
                     <td className="py-2 px-4">{order.status}</td>
                   </tr>
                 ))}

@@ -5,14 +5,14 @@ import Footer from "../components/Footer";
 import MainPageNav from "../components/mainPageNavbar/mainPageNav";
 import toast, { Toaster } from "react-hot-toast";
 import { usePaystackPayment } from "react-paystack";
-import { getLoggedInUser } from "../services/user";
+import { getLoggedInUser, getVendor } from "../services/user";
 import {
   getCartsByUserId,
   deleteCart,
   deleteSingleCart,
 } from "../services/cart";
 import { addOrder } from "../services/order";
-import { getStorageParam } from "../services/misc";
+import { getStorageParam, sendEmail } from "../services/misc";
 import { useRouter } from "next/router";
 
 const Cart = () => {
@@ -91,6 +91,9 @@ const Cart = () => {
       };
       const response = await addOrder(orderData);
       if (response.hasOwnProperty("success") && response.success) {
+        //const vend = await getVendor(cartItems[0].vendor);
+        //const vendor = vend.userData;
+        //await sendEmail({to:vendor.email, vendorName: vendor.userName, cartItems, total:config.amount, comment: "Deliver to address " + address})
         await deleteCart(user.uid);
         toast.success("Order successful");
         router.push("/orders/" + config.reference);
@@ -227,7 +230,9 @@ const Cart = () => {
               </p>
             )}
             <div className="w-full text-black" style={{ marginTop: "20px" }}>
-              <h3>Delivering to: {address}</h3>
+              <h3>Delivering to: <input defaultValue={address} style={{marginTop: "20px"}} rows="1" width="100%" onChange={(e)=> {
+                setAddress(e.target.value);
+              }} /></h3>
             </div>
           </div>
           <div className="md:w-1/3 mt-6 md:mt-0 text-black">
