@@ -25,7 +25,7 @@ const RestaurantId = () => {
       const response = await getVendor(restaurantId);
       setRestaurant(response.userData);
     } catch (error) {
-      toast.error("An error occurred");
+      //toast.error("An error occurred");
     }
   };
 
@@ -35,7 +35,7 @@ const RestaurantId = () => {
       const response = await getProductsByVendor(restaurantId);
       setProductList(response.products);
     } catch (error) {
-      toast.error("An error occurred");
+      //toast.error("An error occurred");
     }
   };
 
@@ -62,7 +62,7 @@ const RestaurantId = () => {
         toast.error("Oops!!, failed to add product to cart");
       }
     } catch (error) {
-      toast.error("An error occurred");
+      //toast.error("An error occurred");
     }
   };
 
