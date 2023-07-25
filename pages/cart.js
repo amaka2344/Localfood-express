@@ -230,7 +230,7 @@ const Cart = () => {
               </p>
             )}
             <div className="w-full text-black" style={{ marginTop: "20px" }}>
-              <h3>Delivering to: <input defaultValue={address} style={{marginTop: "20px"}} rows="1" width="100%" onChange={(e)=> {
+              <h3>Delivering to: <input defaultValue={address} className="font-bold" style={{marginTop: "20px"}} rows="1" width="100%" onChange={(e)=> {
                 setAddress(e.target.value);
               }} /></h3>
             </div>

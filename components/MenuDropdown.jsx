@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const MenuDropdown = () => {
     return (
-        <div className="absolute right-0 z-10  bg-amber-50 font-medium shadow w-max  overflow-hidden transition-all h-[150px]">
+        <div className="absolute right-0 z-10  bg-amber-50 font-medium shadow w-max  overflow-hidden transition-all h-[200px]">
             <ul className="text-sm  ">
                 <li>
                     <Link href='/register' >
