@@ -30,6 +30,7 @@ const Cart = () => {
     publicKey: "pk_test_f3b87e94dc24907be0e40ec14350aebb35dc4e57",
   });
 
+
   const handleCheckLogin = async () => {
     const user = await getLoggedInUser();
     if (user) {
@@ -91,9 +92,9 @@ const Cart = () => {
       };
       const response = await addOrder(orderData);
       if (response.hasOwnProperty("success") && response.success) {
-        //const vend = await getVendor(cartItems[0].vendor);
-        //const vendor = vend.userData;
-        //await sendEmail({to:vendor.email, vendorName: vendor.userName, cartItems, total:config.amount, comment: "Deliver to address " + address})
+        const vend = await getVendor(cartItems[0].vendor);
+        const vendor = vend.userData;
+        await sendEmail({to:vendor.email, vendorName: vendor.userName, cartItems, total:config.amount, comment: "Deliver to address " + address})
         await deleteCart(user.uid);
         toast.success("Order successful");
         router.push("/orders/" + config.reference);
