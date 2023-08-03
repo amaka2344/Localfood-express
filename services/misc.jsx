@@ -40,8 +40,8 @@ const sendEmail = async (mail) => {
     {
       email: mail.to,
       name: mail.vendorName,
-      subject: "Order Notification",
-      message: "You have a new order with the following details <br/><br/>"+JSON.stringify(mail.cartItems)+"<br/><br/><b>Total:</b>"+mail.total+"<br/><br/>"+mail.comment
+      subject: mail.subject,
+      message: mail.message 
     }
     );
     return true;
