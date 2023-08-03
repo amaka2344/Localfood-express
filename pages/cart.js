@@ -91,9 +91,26 @@ const Cart = () => {
       };
       const response = await addOrder(orderData);
       if (response.hasOwnProperty("success") && response.success) {
-        //const vend = await getVendor(cartItems[0].vendor);
-        //const vendor = vend.userData;
-        //await sendEmail({to:vendor.email, vendorName: vendor.userName, cartItems, total:config.amount, comment: "Deliver to address " + address})
+        const vend = await getVendor(cartItems[0].vendor);
+        const vendor = vend.userData;
+
+        let cartItem = "";
+        cartItems.map((cart)=>{
+          cartItem = cartItem+" <b>Product Name</b>:"+cart.productName+" <b>Price:</b> NGN"+cart.price+"<br/>";
+        });
+
+        const total = (config.amount / 100);
+
+        const comment = "Delivering to address: " + address;
+        const message = "You have a new order with the following details <br/><br/>"+cartItem+"<br/><br/><b>Total:</b>NGN "+total+"<br/><br/>"+comment
+
+        await sendEmail({
+          subject: "You have a new order",
+          to: vendor.email,
+          vendorName: vendor.userName,
+          message
+        });
+
         await deleteCart(user.uid);
         toast.success("Order successful");
         router.push("/orders/" + config.reference);
@@ -164,11 +181,10 @@ const Cart = () => {
       setTotal(0);
     }
   }, [cartItems]);
- 
+
   useEffect(() => {
     handleGetCart();
   }, [user]);
-
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -230,9 +246,18 @@ const Cart = () => {
               </p>
             )}
             <div className="w-full text-black" style={{ marginTop: "20px" }}>
-              <h3>Delivering to: <input defaultValue={address} style={{marginTop: "20px"}} rows="1" width="100%" onChange={(e)=> {
-                setAddress(e.target.value);
-              }} /></h3>
+              <h3>
+                Delivering to:{" "}
+                <input
+                  defaultValue={address}
+                  style={{ marginTop: "20px" }}
+                  rows="1"
+                  width="100%"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </h3>
             </div>
           </div>
           <div className="md:w-1/3 mt-6 md:mt-0 text-black">

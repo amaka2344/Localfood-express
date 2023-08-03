@@ -95,7 +95,7 @@ const Order = () => {
                     </td>
                     <td>
                       <span className="font-medium">
-                        NGN {order.amountCharged}
+                        NGN {(order.amountCharged/100)}
                       </span>
                     </td>
                   </tr>
