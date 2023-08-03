@@ -4,7 +4,8 @@ import TopNav from "../../components/adminTopNav";
 import Link from "next/link";
 import { Chip } from "@material-tailwind/react";
 import { getLoggedInUser, logOutUser } from "../../services/user";
-import { getOrdersByVendorId, updateOrder } from "../../services/order";
+import { getOrdersByVendorId, getOrderById, updateOrder } from "../../services/order";
+import { sendEmail } from "../../services/misc";
 import toast, { Toaster } from "react-hot-toast";
 
 const Orders = () => {
@@ -50,10 +51,29 @@ const Orders = () => {
         return;
       }
 
-      const orderData = { status: nextStatus };
+      const orderData = { status: nextStatus };     
       const response = await updateOrder(orderId, orderData);
       setLoading(false);
       if (response.hasOwnProperty("success") && response.success) {
+        const resp = await getOrderById(orderId); 
+        const order = resp.orderData;
+        const customer = order.customer;
+        const total = (order.cartAmount/100);
+        const comment = "Delivering to address: " + order.address;
+        
+        let cartItems = "";
+        order.cart.map((cart)=>{
+          cartItems = cartItems+" <b>Product Name</b>:&nbsp;"+cart.productName+" <b>Price:</b>&nbsp;NGN"+cart.price+"<br/>";
+        })
+
+        const message = "Your order #"+orderId+" status have changed <br/><br/> <b>Items</b><br/>"+cartItems+"<br/><br/><b>Total:</b>&nbsp;NGN"+total+"<br/><br/>"+comment+"<br/><br/><b>Current Status:</b>&nbsp;"+nextStatus
+        await sendEmail({
+          subject: "Your order Status Changed",
+          to: customer.email,
+          vendorName: customer.userName,
+          message
+        });
+
         toast.success("Order status changed");
         handleGetOrders();
       } else {
