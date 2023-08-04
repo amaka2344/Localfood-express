@@ -102,7 +102,7 @@ const Cart = () => {
         const total = (config.amount / 100);
 
         const comment = "Delivering to address: " + address;
-        const message = "You have a new order with the following details <br/><br/>"+cartItem+"<br/><br/><b>Total:</b>NGN "+total+"<br/><br/>"+comment
+        const message = "You have a new order with the following details <br/><br/>"+cartItem+"<br/><br/><b>Total:</b>NGN "+total+"<br/><br/>"+comment+"<br/><br/><b>Contact the Customer</b>"+user.email
 
         await sendEmail({
           subject: "You have a new order",

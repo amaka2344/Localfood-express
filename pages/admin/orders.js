@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import TopNav from "../../components/adminTopNav";
 import Link from "next/link";
 import { Chip } from "@material-tailwind/react";
-import { getLoggedInUser, logOutUser } from "../../services/user";
+import { getLoggedInUser, logOutUser, getVendor } from "../../services/user";
 import { getOrdersByVendorId, getOrderById, updateOrder } from "../../services/order";
 import { sendEmail } from "../../services/misc";
 import toast, { Toaster } from "react-hot-toast";
@@ -58,6 +58,10 @@ const Orders = () => {
         const resp = await getOrderById(orderId); 
         const order = resp.orderData;
         const customer = order.customer;
+
+        const vend = await getVendor(order.vendorId);
+        const vendor = vend.userData;
+
         const total = (order.cartAmount/100);
         const comment = "Delivering to address: " + order.address;
         
@@ -66,7 +70,7 @@ const Orders = () => {
           cartItems = cartItems+" <b>Product Name</b>:&nbsp;"+cart.productName+" <b>Price:</b>&nbsp;NGN"+cart.price+"<br/>";
         })
 
-        const message = "Your order #"+orderId+" status have changed <br/><br/> <b>Items</b><br/>"+cartItems+"<br/><br/><b>Total:</b>&nbsp;NGN"+total+"<br/><br/>"+comment+"<br/><br/><b>Current Status:</b>&nbsp;"+nextStatus
+        const message = "Your order #"+orderId+" status have changed <br/><br/> <b>Items</b><br/>"+cartItems+"<br/><br/><b>Total:</b>&nbsp;NGN"+total+"<br/><br/>"+comment+"<br/><br/><b>Current Status:</b>&nbsp;"+nextStatus+"<br/><br/><b>Vendor Contact</b> "+vendor.email
         await sendEmail({
           subject: "Your order Status Changed",
           to: customer.email,
