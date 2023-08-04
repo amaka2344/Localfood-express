@@ -70,6 +70,7 @@ const Register = () => {
         router.push('/login')
       }
     } catch (error) {
+      setIsLoading(false)
       //use toast library here
       toast.error('error')
     }
