@@ -114,6 +114,17 @@ const Register = () => {
           <br />
           <br />
           <input
+            type="phone"
+            required
+            placeholder="phone number"
+            value=''
+            name="phone number"
+            className="border rounded-md p-1.5 shadow-sm h-14 w-[30%] hover:border-black"
+            onChange={onChangeInHandler}
+          />{" "}
+          <br />
+          <br />
+          <input
             type="password"
             required
             placeholder="password"
